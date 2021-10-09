@@ -15,7 +15,6 @@ class MyApp extends StatelessWidget {
         backgroundColor: Colors.white,
         dialogBackgroundColor: Colors.blue.shade100,
       ),
-      darkTheme: ThemeData.dark(),
       home: Feed(),
     );
   }

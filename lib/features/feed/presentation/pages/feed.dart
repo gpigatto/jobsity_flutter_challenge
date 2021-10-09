@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jobsity_flutter_challenge/features/feed/presentation/widgets/floating.dart';
 import 'package:jobsity_flutter_challenge/features/feed/presentation/widgets/header.dart';
 import 'package:jobsity_flutter_challenge/shared/widgets/body_component.dart';
 
@@ -27,6 +28,7 @@ class _FeedState extends State<Feed> {
           ],
         ),
       ),
+      floating: Floating(),
       showAnimation: true,
     );
   }

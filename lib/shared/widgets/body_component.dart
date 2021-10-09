@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 class BodyComponent extends StatefulWidget {
   final Widget home;
   final Widget header;
+  final Widget floating;
   final bool showAnimation;
 
   const BodyComponent({
@@ -12,6 +13,7 @@ class BodyComponent extends StatefulWidget {
     required this.home,
     required this.header,
     required this.showAnimation,
+    required this.floating,
   }) : super(key: key);
 
   @override
@@ -19,6 +21,9 @@ class BodyComponent extends StatefulWidget {
 }
 
 class _BodyComponentState extends State<BodyComponent> {
+  final _animationTime = Duration(milliseconds: 800);
+  final _animationCurve = Curves.easeIn;
+
   bool _inAnimation = false;
 
   @override
@@ -66,6 +71,7 @@ class _BodyComponentState extends State<BodyComponent> {
             ),
           ),
         ),
+        floatingActionButton: _floating(),
       ),
     );
   }
@@ -75,7 +81,6 @@ class _BodyComponentState extends State<BodyComponent> {
     final _headerColor = Theme.of(context).backgroundColor;
 
     final _headerAnimation = Curves.easeInOutQuint;
-    final _animationTime = Duration(milliseconds: 800);
 
     final _headerHeight = 120.0;
     final _horizontalPadding = 16.0;
@@ -104,7 +109,7 @@ class _BodyComponentState extends State<BodyComponent> {
       ),
       AnimatedOpacity(
         opacity: _inAnimation ? 1 : 0,
-        curve: Curves.easeIn,
+        curve: _animationCurve,
         duration: _animationTime,
         child: AnimatedContainer(
           color: _headerColor,
@@ -124,5 +129,14 @@ class _BodyComponentState extends State<BodyComponent> {
         ),
       ),
     ];
+  }
+
+  _floating() {
+    return AnimatedOpacity(
+      opacity: _inAnimation ? 1 : 0,
+      curve: _animationCurve,
+      duration: _animationTime,
+      child: widget.floating,
+    );
   }
 }
