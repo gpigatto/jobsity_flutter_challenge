@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+final _headerHeight = 120.0;
+
 class BodyComponent extends StatefulWidget {
   final Widget home;
   final Widget header;
@@ -82,7 +84,6 @@ class _BodyComponentState extends State<BodyComponent> {
 
     final _headerAnimation = Curves.easeInOutQuint;
 
-    final _headerHeight = 120.0;
     final _horizontalPadding = 16.0;
     final _bodyBorderRadius = 24.0;
 
@@ -137,6 +138,23 @@ class _BodyComponentState extends State<BodyComponent> {
       curve: _animationCurve,
       duration: _animationTime,
       child: widget.floating,
+    );
+  }
+}
+
+class BodyCenter extends StatelessWidget {
+  final Widget child;
+
+  const BodyCenter({Key? key, required this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var _currentHeaderHeight =
+        MediaQuery.of(context).size.height - _headerHeight;
+
+    return Container(
+      height: _currentHeaderHeight,
+      child: Align(alignment: Alignment.center, child: child),
     );
   }
 }
