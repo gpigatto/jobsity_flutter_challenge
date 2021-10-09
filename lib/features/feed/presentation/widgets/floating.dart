@@ -24,8 +24,9 @@ class Floating extends StatelessWidget {
   }
 
   _iconButton({required context, onPressed, icon}) {
-    final _buttonPadding = 20.0;
-    final _buttonColor = Theme.of(context).accentColor;
+    final _padding = 20.0;
+    final _radius = 24.0;
+    final _color = Theme.of(context).primaryColor;
 
     return ElevatedButton(
       onPressed: onPressed,
@@ -33,8 +34,11 @@ class Floating extends StatelessWidget {
         icon,
       ),
       style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.all(_buttonPadding),
-        primary: _buttonColor,
+        padding: EdgeInsets.all(_padding),
+        primary: _color,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(_radius),
+        ),
       ),
     );
   }
