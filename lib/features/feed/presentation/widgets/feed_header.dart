@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobsity_flutter_challenge/shared/svg_images.dart';
 
-class Header extends StatelessWidget {
+class FeedHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _horizontalPadding = 60.0;

@@ -4,24 +4,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobsity_flutter_challenge/core/infrastructure/service_locator.dart';
 import 'package:jobsity_flutter_challenge/features/feed/presentation/bloc/feed_bloc.dart';
 import 'package:jobsity_flutter_challenge/features/feed/presentation/widgets/movie_card.dart';
-import 'package:jobsity_flutter_challenge/shared/pages/body_component.dart';
 
-class Body extends StatelessWidget {
+class FeedBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<FeedBloc>(
       create: (_) => FeedBloc(serviceLocator()),
-      child: _Body(),
+      child: _FeedBody(),
     );
   }
 }
 
-class _Body extends StatefulWidget {
+class _FeedBody extends StatefulWidget {
   @override
-  __BodyState createState() => __BodyState();
+  __FeedBodyState createState() => __FeedBodyState();
 }
 
-class __BodyState extends State<_Body> {
+class __FeedBodyState extends State<_FeedBody> {
   ScrollController _controller = new ScrollController();
 
   var itemList = [];
