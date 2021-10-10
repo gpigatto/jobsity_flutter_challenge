@@ -18,7 +18,6 @@ class _FeedState extends State<Feed> {
     return BodyComponent(
       header: Header(),
       home: Body(),
-      floating: Floating(),
       showAnimation: true,
     );
   }
