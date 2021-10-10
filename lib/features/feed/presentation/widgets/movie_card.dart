@@ -15,19 +15,17 @@ class MovieCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final _background = Theme.of(context).backgroundColor;
     final _radius = 16.0;
-    final _padding = 8.0;
+    final _padding = 16.0;
     final _mainAlign = MainAxisAlignment.spaceBetween;
     final _crossAlign = CrossAxisAlignment.start;
 
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: _padding),
-      child: ElevatedButton(
-        onPressed: () {},
-        style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.all(_padding),
-          primary: _background,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(_radius),
+      padding: EdgeInsets.only(bottom: _padding),
+      child: Container(
+        decoration: BoxDecoration(
+          color: _background,
+          borderRadius: BorderRadius.all(
+            Radius.circular(_radius),
           ),
         ),
         child: Padding(

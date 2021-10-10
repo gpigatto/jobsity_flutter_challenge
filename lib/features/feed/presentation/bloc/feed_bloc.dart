@@ -34,7 +34,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
 
         var r = await cmd.call(event.page);
 
-        yield FeedLoaded(r);
+        yield FeedLoaded(r, event.page);
       } catch (e) {
         yield FeedError();
       }
@@ -63,9 +63,10 @@ class FeedError extends FeedState {
 
 class FeedLoaded extends FeedState {
   final FeedModel feedModel;
+  final int currentPage;
 
-  FeedLoaded(this.feedModel);
+  FeedLoaded(this.feedModel, this.currentPage);
 
   @override
-  List<Object> get props => [feedModel];
+  List<Object> get props => [feedModel, currentPage];
 }

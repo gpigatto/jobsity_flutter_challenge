@@ -2,7 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:jobsity_flutter_challenge/features/feed/data/feed_data.dart';
 import 'package:jobsity_flutter_challenge/features/feed/domain/commands/feed_command.dart';
 import 'package:jobsity_flutter_challenge/features/feed/domain/repository/feed_interface.dart';
-import 'package:jobsity_flutter_challenge/features/feed/presentation/cubit/feed_bloc.dart';
+import 'package:jobsity_flutter_challenge/features/feed/presentation/bloc/feed_bloc.dart';
 
 GetIt serviceLocator = GetIt.instance;
 
