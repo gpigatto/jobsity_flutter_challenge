@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jobsity_flutter_challenge/shared/bloc/animation_cubit.dart';
 
 final _headerHeight = 120.0;
 
-class AnimatedBody extends StatefulWidget {
+class AnimatedBody extends StatelessWidget {
   final Widget home;
   final Widget header;
   final bool showAnimation;
@@ -18,10 +19,35 @@ class AnimatedBody extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _AnimatedBodyState createState() => _AnimatedBodyState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => AnimationCubit(),
+      child: _AnimatedBody(
+        header: header,
+        home: home,
+        showAnimation: showAnimation,
+      ),
+    );
+  }
 }
 
-class _AnimatedBodyState extends State<AnimatedBody> {
+class _AnimatedBody extends StatefulWidget {
+  final Widget home;
+  final Widget header;
+  final bool showAnimation;
+
+  const _AnimatedBody({
+    Key? key,
+    required this.home,
+    required this.header,
+    required this.showAnimation,
+  }) : super(key: key);
+
+  @override
+  __AnimatedBodyState createState() => __AnimatedBodyState();
+}
+
+class __AnimatedBodyState extends State<_AnimatedBody> {
   final _animationTime = Duration(milliseconds: 800);
   final _animationCurve = Curves.easeIn;
 
@@ -36,6 +62,7 @@ class _AnimatedBodyState extends State<AnimatedBody> {
 
   _animateContainer() {
     _inAnimation = !widget.showAnimation;
+    context.read<AnimationCubit>().enabled();
 
     if (widget.showAnimation) {
       WidgetsBinding.instance!.addPostFrameCallback((_) {
@@ -43,6 +70,7 @@ class _AnimatedBodyState extends State<AnimatedBody> {
           if (mounted) {
             setState(() {
               _inAnimation = true;
+              context.read<AnimationCubit>().disabled();
             });
           }
         });
@@ -90,7 +118,7 @@ class _AnimatedBodyState extends State<AnimatedBody> {
         duration: _animationTime,
         curve: _headerAnimation,
         child: Container(
-          height: _height, //maybe add a parent widget so it will have a height
+          height: _height,
           child: widget.home,
           decoration: BoxDecoration(
             color: _bodyColor,

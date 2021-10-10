@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class InfomationHeader extends StatelessWidget {
+class SimpleHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _padding = 16.0;
