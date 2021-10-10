@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jobsity_flutter_challenge/shared/bloc/page_cubit.dart';
 
 final _headerHeight = 120.0;
 
-class BodyComponent extends StatefulWidget {
+class BodyComponent extends StatelessWidget {
   final Widget home;
   final Widget header;
   final Widget floating;
@@ -19,14 +21,44 @@ class BodyComponent extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _BodyComponentState createState() => _BodyComponentState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => PageCubit(),
+      child: _BodyComponent(
+        home: home,
+        header: header,
+        showAnimation: showAnimation,
+        floating: floating,
+      ),
+    );
+  }
 }
 
-class _BodyComponentState extends State<BodyComponent> {
+class _BodyComponent extends StatefulWidget {
+  final Widget home;
+  final Widget header;
+  final Widget floating;
+  final bool showAnimation;
+
+  const _BodyComponent({
+    Key? key,
+    required this.home,
+    required this.header,
+    required this.showAnimation,
+    required this.floating,
+  }) : super(key: key);
+
+  @override
+  __BodyComponentState createState() => __BodyComponentState();
+}
+
+class __BodyComponentState extends State<_BodyComponent> {
   final _animationTime = Duration(milliseconds: 800);
   final _animationCurve = Curves.easeIn;
 
   bool _inAnimation = false;
+
+  bool _enableToCall = true;
 
   @override
   void initState() {
@@ -60,20 +92,36 @@ class _BodyComponentState extends State<BodyComponent> {
     final _backgroundColor = Theme.of(context).dialogBackgroundColor;
     final _crossAlign = CrossAxisAlignment.stretch;
 
-    return SafeArea(
-      top: false,
-      bottom: false,
-      child: Scaffold(
-        backgroundColor: _backgroundColor,
-        body: RepaintBoundary(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: _crossAlign,
-              children: _home(),
+    return BlocListener<PageCubit, bool>(
+      listener: (context, state) {
+        _enableToCall = !state;
+      },
+      child: SafeArea(
+        top: false,
+        bottom: false,
+        child: Scaffold(
+          backgroundColor: _backgroundColor,
+          body: RepaintBoundary(
+            child: NotificationListener<ScrollNotification>(
+              onNotification: (ScrollNotification scrollInfo) {
+                if (scrollInfo.metrics.pixels ==
+                        scrollInfo.metrics.maxScrollExtent &&
+                    _enableToCall) {
+                  context.read<PageCubit>().changePage();
+                }
+
+                return true;
+              },
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: _crossAlign,
+                  children: _home(),
+                ),
+              ),
             ),
           ),
+          floatingActionButton: _floating(),
         ),
-        floatingActionButton: _floating(),
       ),
     );
   }
