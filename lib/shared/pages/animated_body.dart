@@ -5,12 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 final _headerHeight = 120.0;
 
-class BodyComponent extends StatefulWidget {
+class AnimatedBody extends StatefulWidget {
   final Widget home;
   final Widget header;
   final bool showAnimation;
 
-  const BodyComponent({
+  const AnimatedBody({
     Key? key,
     required this.home,
     required this.header,
@@ -18,10 +18,10 @@ class BodyComponent extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _BodyComponentState createState() => _BodyComponentState();
+  _AnimatedBodyState createState() => _AnimatedBodyState();
 }
 
-class _BodyComponentState extends State<BodyComponent> {
+class _AnimatedBodyState extends State<AnimatedBody> {
   final _animationTime = Duration(milliseconds: 800);
   final _animationCurve = Curves.easeIn;
 
