@@ -2,8 +2,35 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobsity_flutter_challenge/core/infrastructure/service_locator.dart';
+import 'package:jobsity_flutter_challenge/features/feed/model/feed_model.dart';
 import 'package:jobsity_flutter_challenge/features/feed/presentation/bloc/feed_bloc.dart';
 import 'package:jobsity_flutter_challenge/features/feed/presentation/widgets/movie_card.dart';
+import 'package:jobsity_flutter_challenge/shared/widgets/loading_dialog.dart';
+
+class ShowItem {
+  final int? id;
+  final String? imageMedium;
+  final String? imageOriginal;
+  final String? name;
+  final List<String?>? genres;
+  final double? rating;
+
+  final String? premiered;
+  final String? ended;
+  final String? summary;
+
+  ShowItem({
+    required this.id,
+    required this.imageMedium,
+    required this.imageOriginal,
+    required this.name,
+    required this.genres,
+    required this.rating,
+    required this.premiered,
+    required this.ended,
+    required this.summary,
+  });
+}
 
 class FeedBody extends StatelessWidget {
   @override
@@ -64,9 +91,25 @@ class __FeedBodyState extends State<_FeedBody> {
         }
       },
       child: ListView.builder(
-        itemBuilder: (context, i) => MovieCard(
-          feedModelObjectList: itemList[i],
-        ),
+        itemBuilder: (context, i) {
+          FeedModelObjectList item = itemList[i];
+
+          var showItem = ShowItem(
+            id: item.id,
+            name: item.name,
+            rating: item.rating!.average,
+            premiered: item.premiered,
+            ended: item.ended,
+            genres: item.genres,
+            imageMedium: item.image!.medium,
+            imageOriginal: item.image!.original,
+            summary: item.summary,
+          );
+
+          return MovieCard(
+            showItem: showItem,
+          );
+        },
         itemCount: itemList.length,
         controller: _controller,
       ),
@@ -75,9 +118,6 @@ class __FeedBodyState extends State<_FeedBody> {
 
   _loading() {
     final _backgroundColor = Colors.transparent;
-    final _position = 100.0;
-    final _cardColor = Theme.of(context).accentColor;
-    final _circleColor = Theme.of(context).backgroundColor;
 
     showModalBottomSheet<void>(
       backgroundColor: _backgroundColor,
@@ -85,24 +125,7 @@ class __FeedBodyState extends State<_FeedBody> {
       isDismissible: false,
       context: context,
       builder: (BuildContext context) {
-        return WillPopScope(
-          onWillPop: () async => false,
-          child: Container(
-            height: _position,
-            color: _backgroundColor,
-            child: Center(
-              child: CircleAvatar(
-                backgroundColor: _cardColor,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CircularProgressIndicator(
-                    color: _circleColor,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        );
+        return LoadingDialog();
       },
     );
   }

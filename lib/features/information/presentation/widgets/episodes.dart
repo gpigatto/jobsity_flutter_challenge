@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:jobsity_flutter_challenge/core/infrastructure/service_locator.dart';
-import 'package:jobsity_flutter_challenge/features/feed/presentation/widgets/movie_card.dart';
 import 'package:jobsity_flutter_challenge/features/information/model/episode_list_model.dart';
 import 'package:jobsity_flutter_challenge/features/information/presentation/bloc/episodes_list_bloc.dart';
 import 'package:jobsity_flutter_challenge/shared/widgets/poster.dart';
@@ -183,7 +182,8 @@ class EpisodeCard extends StatelessWidget {
                     Expanded(
                       flex: 3,
                       child: Poster(
-                        image: episode.image!.medium,
+                        image:
+                            episode.image != null ? episode.image!.medium : "",
                         id: "${episode.id}_info",
                         aspectRatio: [2, 3],
                       ),

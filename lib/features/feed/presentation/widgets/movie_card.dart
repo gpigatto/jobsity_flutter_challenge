@@ -1,19 +1,17 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jobsity_flutter_challenge/features/feed/model/feed_model.dart';
+import 'package:jobsity_flutter_challenge/features/feed/presentation/widgets/feed_body.dart';
 import 'package:jobsity_flutter_challenge/features/information/presentation/pages/information.dart';
 import 'package:jobsity_flutter_challenge/shared/widgets/genres.dart';
 import 'package:jobsity_flutter_challenge/shared/widgets/poster.dart';
 import 'package:jobsity_flutter_challenge/shared/widgets/rating.dart';
 import 'package:jobsity_flutter_challenge/shared/widgets/space.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 class MovieCard extends StatelessWidget {
-  final FeedModelObjectList? feedModelObjectList;
+  final ShowItem showItem;
 
-  const MovieCard({Key? key, this.feedModelObjectList}) : super(key: key);
+  const MovieCard({Key? key, required this.showItem}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +40,7 @@ class MovieCard extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) => Information(
-                  feedModelObjectList: feedModelObjectList,
+                  showItem: showItem,
                 ),
               ),
             );
@@ -61,8 +59,8 @@ class MovieCard extends StatelessWidget {
                       Expanded(
                         flex: 1,
                         child: Poster(
-                          image: feedModelObjectList!.image!.medium,
-                          id: feedModelObjectList!.id.toString(),
+                          image: showItem.imageMedium,
+                          id: showItem.id.toString(),
                         ),
                       ),
                       HSpace(16),
@@ -71,10 +69,10 @@ class MovieCard extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: _crossAlign,
                           children: [
-                            _title(context, feedModelObjectList!.name ?? ""),
+                            _title(context, showItem.name ?? ""),
                             VSpace(8),
                             Genres(
-                              genres: feedModelObjectList!.genres,
+                              genres: showItem.genres,
                             ),
                           ],
                         ),
@@ -85,7 +83,9 @@ class MovieCard extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: Rating(
-                    rating: feedModelObjectList!.rating!.average.toString(),
+                    rating: showItem.rating != null
+                        ? showItem.rating.toString()
+                        : "-",
                   ),
                 ),
               ],
