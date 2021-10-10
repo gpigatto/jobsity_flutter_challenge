@@ -13,13 +13,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Jobsity Movie Database',
-      theme: ThemeData(
-        accentColor: Colors.orange,
-        primaryColor: Colors.blue,
-        canvasColor: Colors.black87,
-        backgroundColor: Colors.white,
-        dialogBackgroundColor: Colors.blue.shade50,
-      ),
       home: Feed(),
     );
   }

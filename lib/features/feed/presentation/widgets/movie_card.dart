@@ -20,7 +20,11 @@ class MovieCard extends StatelessWidget {
     final _crossAlign = CrossAxisAlignment.start;
 
     return Padding(
-      padding: EdgeInsets.only(bottom: _padding),
+      padding: EdgeInsets.only(
+        bottom: _padding,
+        left: _padding,
+        right: _padding,
+      ),
       child: Container(
         decoration: BoxDecoration(
           color: _background,
@@ -98,9 +102,11 @@ class __PosterState extends State<_Poster> {
         _image.image.resolve(new ImageConfiguration()).addListener(
           new ImageStreamListener(
             (info, call) {
-              setState(() {
-                _loading = false;
-              });
+              if (this.mounted) {
+                setState(() {
+                  _loading = false;
+                });
+              }
             },
           ),
         );
@@ -177,6 +183,7 @@ class _Information extends StatelessWidget {
       crossAxisAlignment: _align,
       children: [
         _title(context),
+        VSpace(8),
         Wrap(
           children: genres!.map(
             (item) {
@@ -226,7 +233,7 @@ class _Information extends StatelessWidget {
   }
 
   _text(BuildContext context, String item) {
-    final _textColor = Theme.of(context).backgroundColor;
+    final _textColor = Theme.of(context).canvasColor;
     final _textWeight = FontWeight.bold;
 
     return Text(
@@ -277,7 +284,7 @@ class _Rating extends StatelessWidget {
 
   _text(BuildContext context) {
     final _fit = BoxFit.fitWidth;
-    final _color = Theme.of(context).backgroundColor;
+    final _color = Theme.of(context).canvasColor;
     final _weight = FontWeight.bold;
 
     return Center(
