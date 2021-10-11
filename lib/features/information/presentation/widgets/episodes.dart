@@ -5,6 +5,7 @@ import 'package:jobsity_flutter_challenge/core/infrastructure/service_locator.da
 import 'package:jobsity_flutter_challenge/features/information/model/episode_list_model.dart';
 import 'package:jobsity_flutter_challenge/features/information/presentation/bloc/episodes_list_bloc.dart';
 import 'package:jobsity_flutter_challenge/features/information/presentation/widgets/episode_card.dart';
+import 'package:jobsity_flutter_challenge/shared/app_theme.dart';
 
 class Item {
   Item({
@@ -102,54 +103,55 @@ class __EpisodesState extends State<_Episodes> {
 
   _seasonSelect(List<String> indexList,
       List<List<EpisodeListModelObjectList>> seasonList) {
-    var _align = MainAxisAlignment.end;
-    var _rightPadding = 16.0;
+    final _align = MainAxisAlignment.end;
 
-    var _verticalButtonPadding = 2.0;
-    var _horizontalButtonPadding = 16.0;
-    var _radius = 16.0;
+    final _horizontalButtonPadding = 16.0;
+    final _radius = 12.0;
+    final _shadow = AppTheme.shadow0;
+    final _color = AppTheme.highlight;
 
-    var _iconSize = 24.0;
-    var _elevation = 16;
+    final _iconSize = 24.0;
 
-    return Padding(
-      padding: EdgeInsets.only(right: _rightPadding),
-      child: Row(
-        mainAxisAlignment: _align,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.amber,
-              borderRadius: BorderRadius.all(
-                Radius.circular(_radius),
-              ),
+    final _textWeight = AppTheme.fontWeightBold;
+
+    return Row(
+      mainAxisAlignment: _align,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: _color,
+            borderRadius: BorderRadius.all(
+              Radius.circular(_radius),
             ),
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: _verticalButtonPadding,
-                  horizontal: _horizontalButtonPadding),
-              child: DropdownButton<String>(
-                value: dropdownValue,
-                underline: SizedBox(),
-                iconSize: _iconSize,
-                elevation: _elevation,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    dropdownValue = newValue!;
-                    index = indexList.indexOf(newValue);
-                  });
-                },
-                items: seasonList.map<DropdownMenuItem<String>>((value) {
-                  return DropdownMenuItem<String>(
-                    value: "Season ${value.first.season}",
-                    child: Text("Season ${value.first.season}"),
-                  );
-                }).toList(),
-              ),
+            boxShadow: [_shadow],
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: _horizontalButtonPadding,
+            ),
+            child: DropdownButton<String>(
+              value: dropdownValue,
+              underline: SizedBox(),
+              iconSize: _iconSize,
+              onChanged: (String? newValue) {
+                setState(() {
+                  dropdownValue = newValue!;
+                  index = indexList.indexOf(newValue);
+                });
+              },
+              items: seasonList.map<DropdownMenuItem<String>>((value) {
+                return DropdownMenuItem<String>(
+                  value: "Season ${value.first.season}",
+                  child: Text(
+                    "Season ${value.first.season}",
+                    style: TextStyle(fontWeight: _textWeight),
+                  ),
+                );
+              }).toList(),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:intl/intl.dart';
 import 'package:jobsity_flutter_challenge/features/feed/presentation/widgets/feed_body.dart';
 import 'package:jobsity_flutter_challenge/features/information/presentation/widgets/episodes.dart';
+import 'package:jobsity_flutter_challenge/shared/app_theme.dart';
 import 'package:jobsity_flutter_challenge/shared/widgets/genres.dart';
 import 'package:jobsity_flutter_challenge/shared/widgets/poster.dart';
 import 'package:jobsity_flutter_challenge/shared/widgets/rating.dart';
@@ -38,7 +39,9 @@ class InformationBody extends StatelessWidget {
     final _posterPadding = 64.0;
 
     final _crossAlign = CrossAxisAlignment.start;
-    final _mainAlign = MainAxisAlignment.spaceBetween;
+
+    final _informationMainAlign = MainAxisAlignment.spaceBetween;
+    final _informationCrossAlign = CrossAxisAlignment.center;
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: _outerPadding),
@@ -54,7 +57,8 @@ class InformationBody extends StatelessWidget {
           ),
           VSpace(24),
           Row(
-            mainAxisAlignment: _mainAlign,
+            mainAxisAlignment: _informationMainAlign,
+            crossAxisAlignment: _informationCrossAlign,
             children: [
               Expanded(
                 flex: 7,
@@ -89,7 +93,7 @@ class InformationBody extends StatelessWidget {
       crossAxisAlignment: _crossAlign,
       children: [
         _title(context, showItem.name ?? ""),
-        VSpace(8),
+        VSpace(4),
         _date(
           context,
           getDate(
@@ -102,8 +106,8 @@ class InformationBody extends StatelessWidget {
   }
 
   _title(BuildContext context, title) {
-    final _textWeight = FontWeight.bold;
-    final _textSize = 18.0;
+    final _textWeight = AppTheme.fontWeightBold;
+    final _textSize = 24.0;
 
     return Text(
       title,
@@ -116,17 +120,19 @@ class InformationBody extends StatelessWidget {
 
   _date(BuildContext context, title) {
     final _textSize = 14.0;
+    final _textWeight = AppTheme.fontWeightThin;
 
     return Text(
       title,
       style: TextStyle(
         fontSize: _textSize,
+        fontWeight: _textWeight,
       ),
     );
   }
 
   _summary(BuildContext context) {
-    final _color = Theme.of(context).backgroundColor;
+    final _color = AppTheme.accent;
     final _radius = 16.0;
 
     return Container(
@@ -135,9 +141,13 @@ class InformationBody extends StatelessWidget {
         borderRadius: BorderRadius.all(
           Radius.circular(_radius),
         ),
+        // boxShadow: [_shadow],
       ),
-      child: Html(
-        data: showItem.summary ?? "",
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Html(
+          data: showItem.summary ?? "",
+        ),
       ),
     );
   }

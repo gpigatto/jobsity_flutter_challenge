@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jobsity_flutter_challenge/features/information/model/episode_list_model.dart';
 import 'package:jobsity_flutter_challenge/features/information/presentation/widgets/episode_dialog.dart';
+import 'package:jobsity_flutter_challenge/shared/app_theme.dart';
 import 'package:jobsity_flutter_challenge/shared/widgets/poster.dart';
 import 'package:jobsity_flutter_challenge/shared/widgets/space.dart';
 
@@ -20,7 +21,8 @@ class EpisodeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _outerPadding = 16.0;
-    final _color = Theme.of(context).accentColor;
+    final _color = AppTheme.backGround;
+    final _shadow = AppTheme.shadow1;
     final _radius = 16.0;
     final _crossAlign = CrossAxisAlignment.start;
     final _mainAlign = MainAxisAlignment.spaceBetween;
@@ -33,6 +35,7 @@ class EpisodeCard extends StatelessWidget {
           borderRadius: BorderRadius.all(
             Radius.circular(_radius),
           ),
+          boxShadow: [_shadow],
         ),
         child: TextButton(
           onPressed: () {
@@ -43,38 +46,23 @@ class EpisodeCard extends StatelessWidget {
             crossAxisAlignment: _crossAlign,
             children: [
               Expanded(
-                flex: 3,
-                child: Row(
-                  crossAxisAlignment: _crossAlign,
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: Poster(
-                        image:
-                            episode.image != null ? episode.image!.medium : "",
-                        id: "${episode.id}_info",
-                        aspectRatio: [2, 3],
-                      ),
-                    ),
-                    HSpace(16),
-                    Expanded(
-                      flex: 3,
-                      child: Column(
-                        crossAxisAlignment: _crossAlign,
-                        children: [
-                          _episode(context, "Episode ${episode.number}"),
-                          _title(context, "${episode.name}"),
-                        ],
-                      ),
-                    ),
-                  ],
+                flex: 2,
+                child: Poster(
+                  image: episode.image != null ? episode.image!.medium : "",
+                  id: "${episode.id}_info",
+                  aspectRatio: [2, 3],
                 ),
               ),
+              HSpace(16),
               Expanded(
-                flex: 1,
-                child: _duration(
-                  context,
-                  "${episode.runtime} Min",
+                flex: 3,
+                child: Column(
+                  crossAxisAlignment: _crossAlign,
+                  children: [
+                    _title(context, "${episode.name}"),
+                    _episode(context,
+                        "Episode ${episode.number}    ${episode.runtime} Mins"),
+                  ],
                 ),
               ),
             ],
@@ -85,9 +73,9 @@ class EpisodeCard extends StatelessWidget {
   }
 
   _title(BuildContext context, title) {
-    final _textWeight = FontWeight.bold;
-    final _color = Colors.white;
-    final _textSize = 18.0;
+    final _textWeight = AppTheme.fontWeightBold;
+    final _color = AppTheme.fontColor;
+    final _textSize = 20.0;
 
     return Text(
       title,
@@ -100,36 +88,16 @@ class EpisodeCard extends StatelessWidget {
   }
 
   _episode(BuildContext context, title) {
-    final _textSize = 14.0;
-    final _color = Colors.white;
+    final _textSize = 12.0;
+    final _textWeight = AppTheme.fontWeightThin;
+    final _color = AppTheme.fontColor;
 
     return Text(
       title,
       style: TextStyle(
         color: _color,
         fontSize: _textSize,
-      ),
-    );
-  }
-
-  _duration(BuildContext context, title) {
-    final _padding = 8.0;
-    final _textSize = 12.0;
-    final _color = Colors.white;
-
-    return Padding(
-      padding: EdgeInsets.only(right: _padding),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Text(
-            title,
-            style: TextStyle(
-              color: _color,
-              fontSize: _textSize,
-            ),
-          ),
-        ],
+        fontWeight: _textWeight,
       ),
     );
   }

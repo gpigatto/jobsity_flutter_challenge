@@ -1,26 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jobsity_flutter_challenge/features/search/presentation/widgets/search_header.dart';
 
 class SimpleHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final _padding = 16.0;
-    final _iconOffset = 8.0;
-    final _icon = Icons.arrow_back_ios;
+    final _iconButton = Icons.arrow_back_ios_new;
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: _padding),
-      child: Row(
-        children: [
-          IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: Padding(
-              padding: EdgeInsets.only(left: _iconOffset),
-              child: Icon(_icon),
-            ),
+    return Row(
+      children: [
+        Expanded(
+          flex: 1,
+          child: Button(
+            icon: _iconButton,
+            fuction: () => Navigator.pop(context),
           ),
-        ],
-      ),
+        ),
+        Expanded(
+          flex: 4,
+          child: SizedBox(),
+        ),
+      ],
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:jobsity_flutter_challenge/features/feed/model/feed_model.dart';
 import 'package:jobsity_flutter_challenge/features/feed/presentation/widgets/feed_body.dart';
 import 'package:jobsity_flutter_challenge/features/information/presentation/pages/information.dart';
+import 'package:jobsity_flutter_challenge/shared/app_theme.dart';
 import 'package:jobsity_flutter_challenge/shared/widgets/genres.dart';
 import 'package:jobsity_flutter_challenge/shared/widgets/poster.dart';
 import 'package:jobsity_flutter_challenge/shared/widgets/rating.dart';
@@ -15,9 +16,11 @@ class MovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _background = Theme.of(context).backgroundColor;
+    final _background = AppTheme.backGround;
+    final _shadow = AppTheme.shadow1;
     final _radius = 16.0;
     final _padding = 16.0;
+    final _innerPadding = 4.0;
     final _mainAlign = MainAxisAlignment.spaceBetween;
     final _crossAlign = CrossAxisAlignment.start;
 
@@ -33,6 +36,7 @@ class MovieCard extends StatelessWidget {
           borderRadius: BorderRadius.all(
             Radius.circular(_radius),
           ),
+          boxShadow: [_shadow],
         ),
         child: TextButton(
           onPressed: () {
@@ -46,7 +50,7 @@ class MovieCard extends StatelessWidget {
             );
           },
           child: Padding(
-            padding: EdgeInsets.all(_padding),
+            padding: EdgeInsets.all(_innerPadding),
             child: Row(
               mainAxisAlignment: _mainAlign,
               crossAxisAlignment: _crossAlign,
@@ -97,9 +101,9 @@ class MovieCard extends StatelessWidget {
   }
 
   _title(BuildContext context, title) {
-    final _textColor = Theme.of(context).canvasColor;
-    final _textWeight = FontWeight.bold;
-    final _textSize = 18.0;
+    final _textColor = AppTheme.fontColor;
+    final _textWeight = AppTheme.fontWeightBold;
+    final _textSize = 20.0;
 
     return Text(
       title,

@@ -8,6 +8,8 @@ import 'package:jobsity_flutter_challenge/features/feed/presentation/widgets/mov
 import 'package:jobsity_flutter_challenge/features/search/model/search_show_model.dart';
 import 'package:jobsity_flutter_challenge/features/search/presentation/bloc/search_show_bloc.dart';
 import 'package:jobsity_flutter_challenge/features/search/presentation/bloc/submit_cubit.dart';
+import 'package:jobsity_flutter_challenge/shared/app_theme.dart';
+import 'package:jobsity_flutter_challenge/shared/pages/animated_body.dart';
 
 class SearchBody extends StatelessWidget {
   @override
@@ -29,6 +31,8 @@ class __SearchBodyState extends State<_SearchBody> {
 
   @override
   Widget build(BuildContext context) {
+    final _cutOutHeight = 40.0;
+
     return MultiBlocListener(
       listeners: [
         BlocListener<SubmitCubit, String>(
@@ -46,42 +50,43 @@ class __SearchBodyState extends State<_SearchBody> {
           },
         ),
       ],
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.amber,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(24),
-            topRight: Radius.circular(24),
+      child: Stack(
+        children: [
+          Container(
+            child: ListView.builder(
+              itemBuilder: (context, i) {
+                SearchShowModelObjectList item = itemList[i];
+
+                try {
+                  var hasImage = item.theShow!.image != null;
+
+                  var showItem = ShowItem(
+                    id: item.theShow!.id,
+                    name: item.theShow!.name,
+                    rating: item.theShow!.rating!.average,
+                    premiered: item.theShow!.premiered,
+                    ended: item.theShow!.ended,
+                    genres: item.theShow!.genres,
+                    imageMedium: hasImage ? item.theShow!.image!.medium : "",
+                    imageOriginal:
+                        hasImage ? item.theShow!.image!.original : "",
+                    summary: item.theShow!.summary,
+                  );
+
+                  return MovieCard(
+                    showItem: showItem,
+                  );
+                } catch (e) {
+                  return SizedBox();
+                }
+              },
+              itemCount: itemList.length,
+            ),
           ),
-        ),
-        child: ListView.builder(
-          itemBuilder: (context, i) {
-            SearchShowModelObjectList item = itemList[i];
-
-            try {
-              var hasImage = item.theShow!.image != null;
-
-              var showItem = ShowItem(
-                id: item.theShow!.id,
-                name: item.theShow!.name,
-                rating: item.theShow!.rating!.average,
-                premiered: item.theShow!.premiered,
-                ended: item.theShow!.ended,
-                genres: item.theShow!.genres,
-                imageMedium: hasImage ? item.theShow!.image!.medium : "",
-                imageOriginal: hasImage ? item.theShow!.image!.original : "",
-                summary: item.theShow!.summary,
-              );
-
-              return MovieCard(
-                showItem: showItem,
-              );
-            } catch (e) {
-              return SizedBox();
-            }
-          },
-          itemCount: itemList.length,
-        ),
+          TopCutOut(
+            height: _cutOutHeight,
+          ),
+        ],
       ),
     );
   }

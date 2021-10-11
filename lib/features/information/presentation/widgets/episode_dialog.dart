@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:jobsity_flutter_challenge/features/information/model/episode_list_model.dart';
+import 'package:jobsity_flutter_challenge/shared/app_theme.dart';
 import 'package:jobsity_flutter_challenge/shared/widgets/poster.dart';
 import 'package:jobsity_flutter_challenge/shared/widgets/space.dart';
 
@@ -37,7 +38,7 @@ class EpisodeDialog extends StatelessWidget {
                 mainAxisSize: _minSize,
                 children: [
                   Poster(
-                    image: episode.image!.original,
+                    image: episode.image != null ? episode.image!.original : "",
                     id: episode.id.toString(),
                     aspectRatio: [2, 3],
                   ),
@@ -48,15 +49,11 @@ class EpisodeDialog extends StatelessWidget {
                         mainAxisAlignment: _mainAxis,
                         crossAxisAlignment: _crossAxis,
                         children: [
-                          Expanded(
-                            flex: 2,
-                            child: _information(),
-                          ),
-                          Expanded(
-                            child: _season(),
-                          ),
+                          _episode(),
+                          _season(),
                         ],
                       ),
+                      _name(),
                       VSpace(24),
                       _summary(context),
                     ],
@@ -71,8 +68,8 @@ class EpisodeDialog extends StatelessWidget {
   }
 
   _summary(BuildContext context) {
+    final _color = AppTheme.accent;
     final _radius = 16.0;
-    final _color = Colors.amber;
 
     return Container(
       decoration: BoxDecoration(
@@ -81,40 +78,48 @@ class EpisodeDialog extends StatelessWidget {
           Radius.circular(_radius),
         ),
       ),
-      child: Html(
-        data: episode.summary ?? "",
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Html(
+          data: episode.summary ?? "",
+        ),
       ),
     );
   }
 
   _season() {
-    final _align = MainAxisAlignment.end;
+    final _textWeight = AppTheme.fontWeightThin;
+    final _textSize = 14.0;
 
-    final _textWeight = FontWeight.bold;
-
-    return Row(
-      mainAxisAlignment: _align,
-      children: [
-        Text(
-          "Season ${episode.season}",
-          style: TextStyle(
-            fontWeight: _textWeight,
-          ),
-        ),
-      ],
+    return Text(
+      "Season ${episode.season}",
+      style: TextStyle(
+        fontWeight: _textWeight,
+        fontSize: _textSize,
+      ),
     );
   }
 
-  _information() {
-    final _align = CrossAxisAlignment.start;
+  _episode() {
+    final _textWeight = AppTheme.fontWeightThin;
+    final _textSize = 14.0;
 
-    final _textWeight = FontWeight.bold;
-    final _textSize = 18.0;
+    return Text(
+      "Episode ${episode.number}",
+      style: TextStyle(
+        fontWeight: _textWeight,
+        fontSize: _textSize,
+      ),
+    );
+  }
 
-    return Column(
-      crossAxisAlignment: _align,
+  _name() {
+    final _textWeight = AppTheme.fontWeightBold;
+    final _textSize = 22.0;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text("Episode ${episode.number}"),
         Text(
           "${episode.name}",
           style: TextStyle(

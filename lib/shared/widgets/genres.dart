@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jobsity_flutter_challenge/shared/app_theme.dart';
 
 class Genres extends StatelessWidget {
   final List<String?>? genres;
@@ -19,8 +20,10 @@ class Genres extends StatelessWidget {
 
   Widget _genre(BuildContext context, String item) {
     final _padding = 4.0;
+    final _innerPaddingHorizontal = 6.0;
+    final _innerPaddingVertical = 2.0;
     final _radius = 8.0;
-    final _color = Theme.of(context).primaryColor;
+    final _color = AppTheme.accentBackground;
 
     return Padding(
       padding: EdgeInsets.only(right: _padding, bottom: _padding),
@@ -32,7 +35,10 @@ class Genres extends StatelessWidget {
           ),
         ),
         child: Padding(
-          padding: EdgeInsets.all(_padding),
+          padding: EdgeInsets.symmetric(
+            horizontal: _innerPaddingHorizontal,
+            vertical: _innerPaddingVertical,
+          ),
           child: _text(context, item),
         ),
       ),
@@ -40,8 +46,8 @@ class Genres extends StatelessWidget {
   }
 
   _text(BuildContext context, String item) {
-    final _textColor = Theme.of(context).canvasColor;
-    final _textWeight = FontWeight.bold;
+    final _textColor = AppTheme.darkAccent;
+    final _textWeight = AppTheme.fontWeightBold;
 
     return Text(
       item,
