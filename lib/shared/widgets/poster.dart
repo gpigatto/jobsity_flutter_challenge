@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jobsity_flutter_challenge/shared/app_theme.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class Poster extends StatefulWidget {
@@ -67,8 +68,9 @@ class _PosterState extends State<Poster> {
 
   _loadingCard() {
     final _radius = 16.0;
-    final _color = Theme.of(context).accentColor;
-    final _loaderColor = Theme.of(context).backgroundColor;
+    final _color = AppTheme.highlight;
+    final _loaderColor = AppTheme.fontColor;
+    final _shadow = AppTheme.shadow1;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -80,6 +82,7 @@ class _PosterState extends State<Poster> {
             borderRadius: BorderRadius.all(
               Radius.circular(_radius),
             ),
+            boxShadow: [_shadow],
           ),
           child: Center(
             child: CircularProgressIndicator(
@@ -94,6 +97,7 @@ class _PosterState extends State<Poster> {
   _image(image) {
     final _radius = 16.0;
     final _fit = BoxFit.fill;
+    final _shadow = AppTheme.shadow1;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -108,6 +112,7 @@ class _PosterState extends State<Poster> {
               image: NetworkImage(image),
               fit: _fit,
             ),
+            boxShadow: [_shadow],
           ),
         );
       },
@@ -115,8 +120,10 @@ class _PosterState extends State<Poster> {
   }
 
   _icon() {
+    final _color = AppTheme.highlight;
+    final _iconColor = AppTheme.fontColor;
     final _radius = 16.0;
-    final _fit = BoxFit.fill;
+    final _shadow = AppTheme.shadow1;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -124,12 +131,18 @@ class _PosterState extends State<Poster> {
           height: ((constraints.maxWidth * widget.aspectRatio[0]) /
               widget.aspectRatio[1]),
           decoration: BoxDecoration(
-            color: Colors.amber,
+            color: _color,
             borderRadius: BorderRadius.all(
               Radius.circular(_radius),
             ),
+            boxShadow: [_shadow],
           ),
-          child: Center(child: Icon(Icons.slideshow_rounded)),
+          child: Center(
+            child: Icon(
+              Icons.slideshow_rounded,
+              color: _iconColor,
+            ),
+          ),
         );
       },
     );

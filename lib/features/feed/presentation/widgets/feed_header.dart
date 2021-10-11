@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobsity_flutter_challenge/features/search/presentation/pages/search.dart';
+import 'package:jobsity_flutter_challenge/features/search/presentation/widgets/search_header.dart';
 import 'package:jobsity_flutter_challenge/shared/bloc/animation_cubit.dart';
 import 'package:jobsity_flutter_challenge/shared/svg_images.dart';
 
@@ -16,10 +17,7 @@ class _FeedHeaderState extends State<FeedHeader> {
 
   @override
   Widget build(BuildContext context) {
-    final _horizontalPadding = 60.0;
-
-    final _horizontalAlign = CrossAxisAlignment.stretch;
-    final _verticalAlign = MainAxisAlignment.center;
+    final _horizontalPadding = 40.0;
 
     final _logo = SvgImages.jobsityLogo;
 
@@ -34,13 +32,17 @@ class _FeedHeaderState extends State<FeedHeader> {
           horizontal: inAnimation ? _horizontalPadding : 0,
         ),
         child: Row(
-          crossAxisAlignment: _horizontalAlign,
-          mainAxisAlignment: _verticalAlign,
           children: [
             _spacer(),
             Expanded(
-              flex: 2,
-              child: SvgPicture.asset(_logo),
+              flex: 3,
+              child: Container(
+                height: double.infinity,
+                child: SvgPicture.asset(
+                  _logo,
+                  fit: BoxFit.fitWidth,
+                ),
+              ),
             ),
             _searchButton()
           ],
@@ -63,9 +65,9 @@ class _FeedHeaderState extends State<FeedHeader> {
       return Expanded(
         flex: 1,
         child: Material(
-          color: Colors.transparent,
-          child: IconButton(
-            onPressed: () {
+          child: Button(
+            icon: Icons.search,
+            fuction: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -73,8 +75,6 @@ class _FeedHeaderState extends State<FeedHeader> {
                 ),
               );
             },
-            icon: Icon(Icons.search),
-            splashColor: Colors.blue,
           ),
         ),
       );
