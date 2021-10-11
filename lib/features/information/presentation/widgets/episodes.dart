@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:jobsity_flutter_challenge/core/infrastructure/service_locator.dart';
 import 'package:jobsity_flutter_challenge/features/information/model/episode_list_model.dart';
 import 'package:jobsity_flutter_challenge/features/information/presentation/bloc/episodes_list_bloc.dart';
-import 'package:jobsity_flutter_challenge/shared/widgets/poster.dart';
-import 'package:jobsity_flutter_challenge/shared/widgets/space.dart';
+import 'package:jobsity_flutter_challenge/features/information/presentation/widgets/episode_card.dart';
 
 class Item {
   Item({
@@ -44,7 +42,8 @@ class _Episodes extends StatefulWidget {
 }
 
 class __EpisodesState extends State<_Episodes> {
-  List<Item> _showEpisodesList = [];
+  String dropdownValue = "";
+  int index = 0;
 
   @override
   void initState() {
@@ -53,295 +52,103 @@ class __EpisodesState extends State<_Episodes> {
     super.initState();
   }
 
-  generateItems(
-    Map<int?, List<EpisodeListModelObjectList>> grouped,
-  ) {
-    List<Item> result = [];
-
-    grouped.forEach((i, season) {
-      List<EpisodeListModelObjectList> episodeList = [];
-
-      season.forEach((episode) {
-        episodeList.add(episode);
-      });
-
-      var item = new Item(
-        season: i!,
-        episodeList: episodeList,
-      );
-
-      result.add(item);
-    });
-
-    setState(() {
-      _showEpisodesList = result;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return BlocListener<EpisodeListBloc, EpisodeListState>(
-      listener: (context, state) {
+    return BlocBuilder<EpisodeListBloc, EpisodeListState>(
+      builder: (context, state) {
         if (state is EpisodeListGroupedBySeason) {
-          generateItems(state.grouped);
-        }
-      },
-      child: _buildPanel(),
-    );
-  }
+          List<List<EpisodeListModelObjectList>> seasonList = [];
+          List<String> indexList = [];
 
-  Widget _buildPanel() {
-    final _elevation = 0;
-    final _color = Colors.transparent;
+          state.grouped.forEach((i, season) {
+            List<EpisodeListModelObjectList> episodeList = [];
 
-    return ExpansionPanelList(
-      elevation: _elevation,
-      dividerColor: _color,
-      expansionCallback: (int index, bool isExpanded) {
-        setState(() {
-          _showEpisodesList[index].isExpanded = !isExpanded;
-        });
-      },
-      children: _showEpisodesList.map<ExpansionPanel>((Item item) {
-        return ExpansionPanel(
-          headerBuilder: (BuildContext context, bool isExpanded) {
-            return ListTile(
-              title: _season("Season ${item.season.toString()}"),
-            );
-          },
-          body: ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemBuilder: (context, i) => EpisodeCard(
-              episode: item.episodeList[i],
-            ),
-            itemCount: item.episodeList.length,
-          ),
-          isExpanded: item.isExpanded,
-        );
-      }).toList(),
-    );
-  }
+            season.forEach((episode) {
+              episodeList.add(episode);
+            });
 
-  _season(title) {
-    final _textWeight = FontWeight.bold;
-    final _textSize = 18.0;
+            seasonList.add(episodeList);
 
-    return Text(
-      title,
-      style: TextStyle(
-        fontWeight: _textWeight,
-        fontSize: _textSize,
-      ),
-    );
-  }
-}
+            indexList.add("Season ${season.first.season}");
+          });
 
-class EpisodeCard extends StatelessWidget {
-  final EpisodeListModelObjectList episode;
+          if (dropdownValue == "") {
+            dropdownValue = "Season ${seasonList.first.first.season}";
+          }
 
-  const EpisodeCard({Key? key, required this.episode}) : super(key: key);
-
-  _showDialog(BuildContext context, EpisodeListModelObjectList episode) {
-    showDialog(
-      context: context,
-      builder: (_) => new EpisodeDialog(episode: episode),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final _outerPadding = 16.0;
-    final _color = Theme.of(context).accentColor;
-    final _radius = 16.0;
-    final _crossAlign = CrossAxisAlignment.start;
-    final _mainAlign = MainAxisAlignment.spaceBetween;
-
-    return Padding(
-      padding: EdgeInsets.only(bottom: _outerPadding),
-      child: Container(
-        decoration: BoxDecoration(
-          color: _color,
-          borderRadius: BorderRadius.all(
-            Radius.circular(_radius),
-          ),
-        ),
-        child: TextButton(
-          onPressed: () {
-            _showDialog(context, episode);
-          },
-          child: Row(
-            mainAxisAlignment: _mainAlign,
-            crossAxisAlignment: _crossAlign,
+          return Column(
             children: [
-              Expanded(
-                flex: 3,
-                child: Row(
-                  crossAxisAlignment: _crossAlign,
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: Poster(
-                        image:
-                            episode.image != null ? episode.image!.medium : "",
-                        id: "${episode.id}_info",
-                        aspectRatio: [2, 3],
-                      ),
+              Column(
+                children: [
+                  _seasonSelect(indexList, seasonList),
+                  ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, i) => EpisodeCard(
+                      episode: seasonList[index][i],
                     ),
-                    HSpace(16),
-                    Expanded(
-                      flex: 3,
-                      child: Column(
-                        crossAxisAlignment: _crossAlign,
-                        children: [
-                          _episode(context, "Episode ${episode.number}"),
-                          _title(context, "${episode.name}"),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: _duration(
-                  context,
-                  "${episode.runtime} Min",
-                ),
+                    itemCount: seasonList[index].length,
+                  ),
+                ],
               ),
             ],
-          ),
-        ),
-      ),
+          );
+        }
+
+        return SizedBox();
+      },
     );
   }
 
-  _title(BuildContext context, title) {
-    final _textWeight = FontWeight.bold;
-    final _color = Colors.white;
-    final _textSize = 18.0;
+  _seasonSelect(List<String> indexList,
+      List<List<EpisodeListModelObjectList>> seasonList) {
+    var _align = MainAxisAlignment.end;
+    var _rightPadding = 16.0;
 
-    return Text(
-      title,
-      style: TextStyle(
-        color: _color,
-        fontWeight: _textWeight,
-        fontSize: _textSize,
-      ),
-    );
-  }
+    var _verticalButtonPadding = 2.0;
+    var _horizontalButtonPadding = 16.0;
+    var _radius = 16.0;
 
-  _episode(BuildContext context, title) {
-    final _textSize = 14.0;
-    final _color = Colors.white;
-
-    return Text(
-      title,
-      style: TextStyle(
-        color: _color,
-        fontSize: _textSize,
-      ),
-    );
-  }
-
-  _duration(BuildContext context, title) {
-    final _padding = 8.0;
-    final _textSize = 12.0;
-    final _color = Colors.white;
+    var _iconSize = 24.0;
+    var _elevation = 16;
 
     return Padding(
-      padding: EdgeInsets.only(right: _padding),
+      padding: EdgeInsets.only(right: _rightPadding),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: _align,
         children: [
-          Text(
-            title,
-            style: TextStyle(
-              color: _color,
-              fontSize: _textSize,
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.amber,
+              borderRadius: BorderRadius.all(
+                Radius.circular(_radius),
+              ),
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  vertical: _verticalButtonPadding,
+                  horizontal: _horizontalButtonPadding),
+              child: DropdownButton<String>(
+                value: dropdownValue,
+                underline: SizedBox(),
+                iconSize: _iconSize,
+                elevation: _elevation,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    dropdownValue = newValue!;
+                    index = indexList.indexOf(newValue);
+                  });
+                },
+                items: seasonList.map<DropdownMenuItem<String>>((value) {
+                  return DropdownMenuItem<String>(
+                    value: "Season ${value.first.season}",
+                    child: Text("Season ${value.first.season}"),
+                  );
+                }).toList(),
+              ),
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class EpisodeDialog extends StatelessWidget {
-  final EpisodeListModelObjectList episode;
-
-  const EpisodeDialog({Key? key, required this.episode}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(16.0),
-        ),
-      ),
-      content: Builder(
-        builder: (context) {
-          var padding = 120.0;
-          var width = MediaQuery.of(context).size.width - padding;
-
-          return Container(
-            width: width,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Poster(
-                    image: episode.image!.original,
-                    id: episode.id.toString(),
-                    aspectRatio: [2, 3],
-                  ),
-                  VSpace(24),
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Episode ${episode.number}"),
-                                Text("${episode.name}"),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text("Season ${episode.season}"),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      VSpace(24),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).backgroundColor,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(16),
-                          ),
-                        ),
-                        child: Html(
-                          data: episode.summary ?? "",
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          );
-        },
       ),
     );
   }
