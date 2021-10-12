@@ -8,7 +8,6 @@ import 'package:jobsity_flutter_challenge/features/feed/presentation/widgets/mov
 import 'package:jobsity_flutter_challenge/features/search/model/search_show_model.dart';
 import 'package:jobsity_flutter_challenge/features/search/presentation/bloc/search_show_bloc.dart';
 import 'package:jobsity_flutter_challenge/features/search/presentation/bloc/submit_cubit.dart';
-import 'package:jobsity_flutter_challenge/shared/app_theme.dart';
 import 'package:jobsity_flutter_challenge/shared/pages/animated_body.dart';
 
 class SearchBody extends StatelessWidget {

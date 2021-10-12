@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jobsity_flutter_challenge/features/search/presentation/widgets/search_header.dart';
+import 'package:jobsity_flutter_challenge/shared/widgets/button.dart';
 
 class SimpleHeader extends StatelessWidget {
   @override

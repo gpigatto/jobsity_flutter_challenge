@@ -2,10 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jobsity_flutter_challenge/features/menu/presentation/pages/menu.dart';
 import 'package:jobsity_flutter_challenge/features/search/presentation/pages/search.dart';
 import 'package:jobsity_flutter_challenge/features/search/presentation/widgets/search_header.dart';
 import 'package:jobsity_flutter_challenge/shared/bloc/animation_cubit.dart';
 import 'package:jobsity_flutter_challenge/shared/svg_images.dart';
+import 'package:jobsity_flutter_challenge/shared/widgets/button.dart';
 
 class FeedHeader extends StatefulWidget {
   @override
@@ -33,7 +35,7 @@ class _FeedHeaderState extends State<FeedHeader> {
         ),
         child: Row(
           children: [
-            _spacer(),
+            _menuButton(),
             Expanded(
               flex: 3,
               child: Container(
@@ -51,11 +53,27 @@ class _FeedHeaderState extends State<FeedHeader> {
     );
   }
 
-  _spacer() {
+  _menuButton() {
     if (inAnimation)
       return SizedBox();
     else
-      return Expanded(flex: 1, child: Container());
+      return Expanded(
+        flex: 1,
+        child: Material(
+          color: Colors.transparent,
+          child: Button(
+            icon: Icons.segment,
+            fuction: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Menu(),
+                ),
+              );
+            },
+          ),
+        ),
+      );
   }
 
   _searchButton() {
