@@ -70,7 +70,7 @@ class _PosterState extends State<Poster> {
     final _radius = 16.0;
     final _color = AppTheme.highlight;
     final _loaderColor = AppTheme.fontColor;
-    final _shadow = AppTheme.shadow1;
+    final _shadow = AppTheme.shadow2;
 
     return LayoutBuilder(
       builder: (context, constraints) {

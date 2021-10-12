@@ -53,6 +53,7 @@ class EpisodeDialog extends StatelessWidget {
                           _season(),
                         ],
                       ),
+                      VSpace(8),
                       _name(),
                       VSpace(24),
                       _summary(context),
