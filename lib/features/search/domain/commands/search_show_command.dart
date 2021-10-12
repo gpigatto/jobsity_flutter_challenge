@@ -11,7 +11,7 @@ class SearchShowCommand extends Command<SearchShowModel, String> {
   Future<SearchShowModel> call(String query) async {
     try {
       var result = await repo(
-          query.replaceAll(new RegExp(r'[^\w\s]+'), '').replaceAll(" ", "_"));
+          query.replaceAll(new RegExp(r'[^\w\s]+'), '').replaceAll(" ", "%20"));
 
       return result;
     } catch (e) {

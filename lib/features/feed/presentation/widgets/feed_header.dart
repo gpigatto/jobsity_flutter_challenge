@@ -65,6 +65,7 @@ class _FeedHeaderState extends State<FeedHeader> {
       return Expanded(
         flex: 1,
         child: Material(
+          color: Colors.transparent,
           child: Button(
             icon: Icons.search,
             fuction: () {

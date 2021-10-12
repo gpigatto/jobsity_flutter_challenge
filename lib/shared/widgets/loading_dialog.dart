@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jobsity_flutter_challenge/shared/app_theme.dart';
 
 class LoadingDialog extends StatelessWidget {
   const LoadingDialog({
@@ -9,8 +10,8 @@ class LoadingDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _position = 100.0;
-    final _cardColor = Theme.of(context).accentColor;
-    final _circleColor = Theme.of(context).backgroundColor;
+    final _cardColor = AppTheme.darkAccent;
+    final _circleColor = AppTheme.accentBackground;
     final _backgroundColor = Colors.transparent;
     final _padding = 8.0;
 
