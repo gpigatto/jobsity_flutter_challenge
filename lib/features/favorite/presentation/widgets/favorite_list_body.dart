@@ -21,7 +21,7 @@ class _FavoriteListBody extends StatefulWidget {
 }
 
 class __FavoriteListBodyState extends State<_FavoriteListBody> {
-  var itemList = [];
+  var _itemList = [];
 
   @override
   void initState() {
@@ -32,7 +32,8 @@ class __FavoriteListBodyState extends State<_FavoriteListBody> {
 
   @override
   Widget build(BuildContext context) {
-    final _cutOutHeight = 40.0;
+    final _cutOutHeight = 41.0;
+    final _animationTime = Duration(milliseconds: 800);
 
     return MultiBlocListener(
       listeners: [
@@ -40,7 +41,7 @@ class __FavoriteListBodyState extends State<_FavoriteListBody> {
           listener: (context, state) {
             if (state is FavoriteListLoaded) {
               setState(() {
-                itemList = state.list;
+                _itemList = state.list;
               });
             }
           },
@@ -59,16 +60,18 @@ class __FavoriteListBodyState extends State<_FavoriteListBody> {
       ],
       child: Stack(
         children: [
-          Container(
+          AnimatedOpacity(
+            duration: _animationTime,
+            opacity: _itemList.length > 0 ? 1 : 0,
             child: ListView.builder(
               itemBuilder: (context, i) {
-                ShowItem item = itemList[i];
+                ShowItem item = _itemList[i];
 
                 return MovieCard(
                   showItem: item,
                 );
               },
-              itemCount: itemList.length,
+              itemCount: _itemList.length,
             ),
           ),
           TopCutOut(

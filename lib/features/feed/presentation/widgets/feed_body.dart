@@ -50,23 +50,23 @@ class _FeedBody extends StatefulWidget {
 class __FeedBodyState extends State<_FeedBody> {
   ScrollController _controller = new ScrollController();
 
-  var itemList = [];
-  var currentPage = 0;
-  var loading = false;
+  var _itemList = [];
+  int _currentPage = 0;
+  bool _loading = false;
 
   _scrollListener() {
     if (_controller.offset >= _controller.position.maxScrollExtent &&
         !_controller.position.outOfRange) {
-      context.read<FeedBloc>().add(FeedLoad(currentPage));
+      context.read<FeedBloc>().add(FeedLoad(_currentPage));
 
-      loading = true;
-      _loading();
+      _loading = true;
+      _loadingDialog();
     }
   }
 
   @override
   void initState() {
-    context.read<FeedBloc>().add(FeedLoad(currentPage));
+    context.read<FeedBloc>().add(FeedLoad(_currentPage));
 
     _controller.addListener(_scrollListener);
 
@@ -75,48 +75,54 @@ class __FeedBodyState extends State<_FeedBody> {
 
   @override
   Widget build(BuildContext context) {
+    final _animationTime = Duration(milliseconds: 800);
+
     return BlocListener<FeedBloc, FeedState>(
       listener: (context, state) {
         if (state is FeedLoaded) {
           setState(() {
-            itemList.addAll(state.feedModel.ObjectList!);
+            _itemList.addAll(state.feedModel.ObjectList!);
           });
 
-          currentPage++;
+          _currentPage++;
 
-          if (loading) {
-            loading = false;
+          if (_loading) {
+            _loading = false;
             Navigator.pop(context);
           }
         }
       },
-      child: ListView.builder(
-        itemBuilder: (context, i) {
-          FeedModelObjectList item = itemList[i];
+      child: AnimatedOpacity(
+        duration: _animationTime,
+        opacity: _itemList.length > 0 ? 1 : 0,
+        child: ListView.builder(
+          itemBuilder: (context, i) {
+            FeedModelObjectList item = _itemList[i];
 
-          var showItem = ShowItem(
-            id: item.id,
-            name: item.name,
-            rating: item.rating!.average,
-            premiered: item.premiered,
-            ended: item.ended,
-            genres: item.genres,
-            imageMedium: item.image!.medium,
-            imageOriginal: item.image!.original,
-            summary: item.summary,
-          );
+            var showItem = ShowItem(
+              id: item.id,
+              name: item.name,
+              rating: item.rating!.average,
+              premiered: item.premiered,
+              ended: item.ended,
+              genres: item.genres,
+              imageMedium: item.image!.medium,
+              imageOriginal: item.image!.original,
+              summary: item.summary,
+            );
 
-          return MovieCard(
-            showItem: showItem,
-          );
-        },
-        itemCount: itemList.length,
-        controller: _controller,
+            return MovieCard(
+              showItem: showItem,
+            );
+          },
+          itemCount: _itemList.length,
+          controller: _controller,
+        ),
       ),
     );
   }
 
-  _loading() {
+  _loadingDialog() {
     final _backgroundColor = Colors.transparent;
 
     showModalBottomSheet<void>(
