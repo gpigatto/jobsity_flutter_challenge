@@ -107,12 +107,12 @@ class __EpisodesState extends State<_Episodes> {
 
     final _horizontalButtonPadding = 16.0;
     final _radius = 12.0;
-    final _shadow = AppTheme.shadow0;
-    final _color = AppTheme.highlight;
+    final _shadow = AppTheme().shadow.shadow0;
+    final _color = AppTheme().colors.highlight;
 
     final _iconSize = 24.0;
 
-    final _textWeight = AppTheme.fontWeightBold;
+    final _textWeight = AppTheme().appFontWeight.bold;
 
     return Row(
       mainAxisAlignment: _align,

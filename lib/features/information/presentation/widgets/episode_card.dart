@@ -21,8 +21,8 @@ class EpisodeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _outerPadding = 16.0;
-    final _color = AppTheme.backGround;
-    final _shadow = AppTheme.shadow1;
+    final _color = AppTheme().colors.backGround;
+    final _shadow = AppTheme().shadow.shadow1;
     final _radius = 16.0;
     final _crossAlign = CrossAxisAlignment.start;
     final _mainAlign = MainAxisAlignment.spaceBetween;
@@ -73,8 +73,8 @@ class EpisodeCard extends StatelessWidget {
   }
 
   _title(BuildContext context, title) {
-    final _textWeight = AppTheme.fontWeightBold;
-    final _color = AppTheme.fontColor;
+    final _textWeight = AppTheme().appFontWeight.bold;
+    final _color = AppTheme().fontColors.base;
     final _textSize = 20.0;
 
     return Text(
@@ -89,8 +89,8 @@ class EpisodeCard extends StatelessWidget {
 
   _episode(BuildContext context, title) {
     final _textSize = 12.0;
-    final _textWeight = AppTheme.fontWeightThin;
-    final _color = AppTheme.fontColor;
+    final _textWeight = AppTheme().fontWeight.thin;
+    final _color = AppTheme().fontColors.base;
 
     return Text(
       title,

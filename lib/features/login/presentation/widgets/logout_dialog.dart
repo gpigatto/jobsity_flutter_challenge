@@ -7,6 +7,7 @@ import 'package:jobsity_flutter_challenge/features/login/presentation/bloc/get_l
 import 'package:jobsity_flutter_challenge/features/login/presentation/bloc/logout_bloc.dart';
 import 'package:jobsity_flutter_challenge/shared/app_theme.dart';
 import 'package:jobsity_flutter_challenge/shared/widgets/space.dart';
+import 'package:jobsity_flutter_challenge/shared/widgets/toast.dart';
 
 class LogoutDialog extends StatelessWidget {
   @override
@@ -35,15 +36,7 @@ class __LogoutDialogState extends State<_LogoutDialog> {
       listener: (context, state) {
         if (state is LogoutLoaded) {
           if (state.success) {
-            Fluttertoast.showToast(
-              msg: "Bye!",
-              toastLength: Toast.LENGTH_LONG,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: AppTheme.highlight,
-              textColor: AppTheme.fontColor,
-              fontSize: 16.0,
-            );
+            CustomToast().errorToast("Bye!", ToastGravity.BOTTOM);
 
             context.read<GetLoggedBloc>().add(GetLoggedLoad());
 
@@ -84,8 +77,8 @@ class __LogoutDialogState extends State<_LogoutDialog> {
 
   _title() {
     final _title = "Sign Out";
-    final _textColor = AppTheme.fontColor;
-    final _fontWeight = AppTheme.fontWeightBold;
+    final _textColor = AppTheme().fontColors.base;
+    final _fontWeight = AppTheme().appFontWeight.bold;
     final _textSize = 22.0;
 
     return Text(
@@ -100,7 +93,7 @@ class __LogoutDialogState extends State<_LogoutDialog> {
 
   _text() {
     final _title = "Do you really want to sign out?";
-    final _textColor = AppTheme.fontColor;
+    final _textColor = AppTheme().fontColors.base;
     final _textSize = 20.0;
 
     return Text(
@@ -114,13 +107,13 @@ class __LogoutDialogState extends State<_LogoutDialog> {
 
   _signOut() {
     final _text = "Sign Out";
-    final _color = AppTheme.darkAccent;
-    final _textColor = AppTheme.accentBackground;
-    final _textWeight = AppTheme.fontWeightBold;
+    final _color = AppTheme().colors.dark;
+    final _textColor = AppTheme().colors.backGround;
+    final _textWeight = AppTheme().appFontWeight.bold;
     final _textSize = 20.0;
     final _radius = 12.0;
     final _padding = 16.0;
-    final _shadow = AppTheme.shadow0;
+    final _shadow = AppTheme().shadow.shadow0;
 
     return Container(
       decoration: BoxDecoration(

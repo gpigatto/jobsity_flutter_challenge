@@ -13,7 +13,7 @@ class Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _color = AppTheme.highlight;
+    final _color = AppTheme().colors.highlight;
     final _radius = 12.0;
 
     return Padding(

@@ -14,6 +14,7 @@ import 'package:jobsity_flutter_challenge/features/feed/presentation/widgets/fee
 import 'package:jobsity_flutter_challenge/features/login/presentation/bloc/get_logged_bloc.dart';
 import 'package:jobsity_flutter_challenge/shared/app_theme.dart';
 import 'package:jobsity_flutter_challenge/shared/widgets/button.dart';
+import 'package:jobsity_flutter_challenge/shared/widgets/toast.dart';
 
 class InformationHeader extends StatelessWidget {
   final ShowItem showItem;
@@ -152,8 +153,8 @@ class __InformationHeaderState extends State<_InformationHeader> {
   }
 
   _addFavorite() {
-    final _color = AppTheme.accentBackground;
-    final _iconColor = AppTheme.highlight;
+    final _color = AppTheme().colors.backGround;
+    final _iconColor = AppTheme().colors.highlight;
     final _icon = Icons.star_border;
     final _radius = 12.0;
     final _padding = 16.0;
@@ -191,7 +192,8 @@ class __InformationHeaderState extends State<_InformationHeader> {
                           ),
                         );
                   } else {
-                    _errorToast("Sign in first!");
+                    CustomToast()
+                        .errorToast("Sign in first!", ToastGravity.TOP);
                   }
                 },
                 borderRadius: BorderRadius.all(
@@ -210,8 +212,8 @@ class __InformationHeaderState extends State<_InformationHeader> {
   }
 
   _removeFavorite() {
-    final _color = AppTheme.accent;
-    final _iconColor = AppTheme.darkAccent;
+    final _color = AppTheme().colors.base;
+    final _iconColor = AppTheme().colors.dark;
     final _icon = Icons.star;
     final _radius = 12.0;
     final _padding = 16.0;
@@ -249,7 +251,8 @@ class __InformationHeaderState extends State<_InformationHeader> {
                           ),
                         );
                   } else {
-                    _errorToast("Sign in first!");
+                    CustomToast()
+                        .errorToast("Sign in first!", ToastGravity.TOP);
                   }
                 },
                 borderRadius: BorderRadius.all(
@@ -264,18 +267,6 @@ class __InformationHeaderState extends State<_InformationHeader> {
           );
         },
       ),
-    );
-  }
-
-  _errorToast(message) {
-    Fluttertoast.showToast(
-      msg: message,
-      toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.TOP,
-      timeInSecForIosWeb: 1,
-      backgroundColor: AppTheme.darkAccent,
-      textColor: AppTheme.accentBackground,
-      fontSize: 16.0,
     );
   }
 }

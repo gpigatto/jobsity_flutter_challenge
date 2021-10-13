@@ -33,7 +33,7 @@ class FavoriteListHeader extends StatelessWidget {
   }
 
   _title(BuildContext context, title) {
-    final _textWeight = AppTheme.fontWeightBold;
+    final _textWeight = AppTheme().appFontWeight.bold;
     final _textSize = 24.0;
 
     return Text(

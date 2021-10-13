@@ -68,9 +68,9 @@ class _PosterState extends State<Poster> {
 
   _loadingCard() {
     final _radius = 16.0;
-    final _color = AppTheme.highlight;
-    final _loaderColor = AppTheme.fontColor;
-    final _shadow = AppTheme.shadow2;
+    final _color = AppTheme().colors.highlight;
+    final _loaderColor = AppTheme().fontColors.base;
+    final _shadow = AppTheme().shadow.shadow2;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -97,7 +97,7 @@ class _PosterState extends State<Poster> {
   _image(image) {
     final _radius = 16.0;
     final _fit = BoxFit.fill;
-    final _shadow = AppTheme.shadow1;
+    final _shadow = AppTheme().shadow.shadow1;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -120,10 +120,10 @@ class _PosterState extends State<Poster> {
   }
 
   _icon() {
-    final _color = AppTheme.highlight;
-    final _iconColor = AppTheme.fontColor;
+    final _color = AppTheme().colors.highlight;
+    final _iconColor = AppTheme().fontColors.base;
     final _radius = 16.0;
-    final _shadow = AppTheme.shadow1;
+    final _shadow = AppTheme().shadow.shadow1;
 
     return LayoutBuilder(
       builder: (context, constraints) {

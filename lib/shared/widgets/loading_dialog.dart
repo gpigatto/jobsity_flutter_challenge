@@ -10,8 +10,8 @@ class LoadingDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _position = 100.0;
-    final _cardColor = AppTheme.darkAccent;
-    final _circleColor = AppTheme.accentBackground;
+    final _cardColor = AppTheme().colors.dark;
+    final _circleColor = AppTheme().colors.backGround;
     final _backgroundColor = Colors.transparent;
     final _padding = 8.0;
 
