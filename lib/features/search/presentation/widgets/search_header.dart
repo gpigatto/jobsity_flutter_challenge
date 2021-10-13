@@ -11,13 +11,13 @@ import 'package:jobsity_flutter_challenge/shared/widgets/space.dart';
 class SearchHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final _statusPadding = MediaQuery.of(context).padding.top;
+    final _padding = 26.0;
     final _verticalAlign = MainAxisAlignment.center;
     final _iconButton = Icons.arrow_back_ios_new;
 
     return Column(
       children: [
-        VSpace(_statusPadding),
+        VSpace(_padding),
         Container(
           child: Row(
             mainAxisAlignment: _verticalAlign,

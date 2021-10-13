@@ -1,4 +1,20 @@
 import 'package:get_it/get_it.dart';
+import 'package:jobsity_flutter_challenge/features/favorite/data/add_favorite_data.dart';
+import 'package:jobsity_flutter_challenge/features/favorite/data/check_favorite_data.dart';
+import 'package:jobsity_flutter_challenge/features/favorite/data/favorite_list_data.dart';
+import 'package:jobsity_flutter_challenge/features/favorite/data/remove_favorite_data.dart';
+import 'package:jobsity_flutter_challenge/features/favorite/domain/commands/add_favorite_command.dart';
+import 'package:jobsity_flutter_challenge/features/favorite/domain/commands/check_favorite_command.dart';
+import 'package:jobsity_flutter_challenge/features/favorite/domain/commands/favorite_list_command.dart';
+import 'package:jobsity_flutter_challenge/features/favorite/domain/commands/remove_favorite_command.dart';
+import 'package:jobsity_flutter_challenge/features/favorite/domain/repository/add_favorite_interface.dart';
+import 'package:jobsity_flutter_challenge/features/favorite/domain/repository/check_favorite_interface.dart';
+import 'package:jobsity_flutter_challenge/features/favorite/domain/repository/favorite_list_interface.dart';
+import 'package:jobsity_flutter_challenge/features/favorite/domain/repository/remove_favorite_interface.dart';
+import 'package:jobsity_flutter_challenge/features/favorite/presentation/bloc/add_favorite_bloc.dart';
+import 'package:jobsity_flutter_challenge/features/favorite/presentation/bloc/check_favorite_bloc.dart';
+import 'package:jobsity_flutter_challenge/features/favorite/presentation/bloc/favorite_list_bloc.dart';
+import 'package:jobsity_flutter_challenge/features/favorite/presentation/bloc/remove_favorite_bloc.dart';
 import 'package:jobsity_flutter_challenge/features/feed/data/feed_data.dart';
 import 'package:jobsity_flutter_challenge/features/feed/domain/commands/feed_command.dart';
 import 'package:jobsity_flutter_challenge/features/feed/domain/repository/feed_interface.dart';
@@ -58,6 +74,10 @@ Future<void> initServiceLocator() async {
   await _loginBiometric();
   await _checkBiometric();
   await _userExist();
+  await _addFavorite();
+  await _removeFavorite();
+  await _checkFavorite();
+  await _favoriteList();
 }
 
 Future<void> _feed() async {
@@ -171,4 +191,48 @@ Future<void> _userExist() async {
       .registerLazySingleton(() => UserExistCommand(serviceLocator()));
   //bloc / estado
   serviceLocator.registerFactory(() => UserExistBloc(serviceLocator()));
+}
+
+Future<void> _addFavorite() async {
+  //repositorio / acesso aos dados
+  serviceLocator
+      .registerLazySingleton<AddFavoriteInterface>(() => AddFavoriteData());
+  //command / regra de negocio
+  serviceLocator
+      .registerLazySingleton(() => AddFavoriteCommand(serviceLocator()));
+  //bloc / estado
+  serviceLocator.registerFactory(() => AddFavoriteBloc(serviceLocator()));
+}
+
+Future<void> _removeFavorite() async {
+  //repositorio / acesso aos dados
+  serviceLocator.registerLazySingleton<RemoveFavoriteInterface>(
+      () => RemoveFavoriteData());
+  //command / regra de negocio
+  serviceLocator
+      .registerLazySingleton(() => RemoveFavoriteCommand(serviceLocator()));
+  //bloc / estado
+  serviceLocator.registerFactory(() => RemoveFavoriteBloc(serviceLocator()));
+}
+
+Future<void> _checkFavorite() async {
+  //repositorio / acesso aos dados
+  serviceLocator
+      .registerLazySingleton<CheckFavoriteInterface>(() => CheckFavoriteData());
+  //command / regra de negocio
+  serviceLocator
+      .registerLazySingleton(() => CheckFavoriteCommand(serviceLocator()));
+  //bloc / estado
+  serviceLocator.registerFactory(() => CheckFavoriteBloc(serviceLocator()));
+}
+
+Future<void> _favoriteList() async {
+  //repositorio / acesso aos dados
+  serviceLocator
+      .registerLazySingleton<FavoriteListInterface>(() => FavoriteListData());
+  //command / regra de negocio
+  serviceLocator
+      .registerLazySingleton(() => FavoriteListCommand(serviceLocator()));
+  //bloc / estado
+  serviceLocator.registerFactory(() => FavoriteListBloc(serviceLocator()));
 }

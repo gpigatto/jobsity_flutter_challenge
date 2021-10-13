@@ -10,6 +10,7 @@ class Menu extends StatelessWidget {
     return SimpleBody(
       header: MenuHeader(),
       body: MenuBody(),
+      headerHaveHeight: false,
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobsity_flutter_challenge/core/infrastructure/service_locator.dart';
+import 'package:jobsity_flutter_challenge/features/favorite/presentation/bloc/favorite_list_bloc.dart';
 import 'package:jobsity_flutter_challenge/features/feed/presentation/pages/feed.dart';
 import 'package:jobsity_flutter_challenge/features/login/presentation/bloc/get_logged_bloc.dart';
 
@@ -17,6 +18,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<GetLoggedBloc>(
           create: (BuildContext context) => GetLoggedBloc(serviceLocator()),
+        ),
+        BlocProvider<FavoriteListBloc>(
+          create: (_) => FavoriteListBloc(serviceLocator()),
         ),
       ],
       child: MaterialApp(
