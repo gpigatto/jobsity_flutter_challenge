@@ -17,85 +17,109 @@ class FeedHeader extends StatefulWidget {
 class _FeedHeaderState extends State<FeedHeader> {
   bool inAnimation = true;
 
+  int _flex1 = 0;
+  int _flex2 = 3;
+  int _flex3 = 0;
+
   @override
   Widget build(BuildContext context) {
-    final _horizontalPadding = 40.0;
-
     final _logo = SvgImages.jobsityLogo;
+    final _duration = Duration(milliseconds: 800);
+    final _curve = Curves.easeOutQuad;
+    final _opacityCurve = Curves.easeInExpo;
+    final _padding = 32.0;
+
+    double width = MediaQuery.of(context).size.width;
+
+    var width1 = (_flex1 * width) / (_flex1 + _flex2 + _flex3);
+    var width2 = (_flex2 * width) / (_flex1 + _flex2 + _flex3);
+    var width3 = (_flex3 * width) / (_flex1 + _flex2 + _flex3);
 
     return BlocListener<AnimationCubit, bool>(
       listener: (context, state) {
         setState(() {
           inAnimation = state;
+          _flex1 = 1;
+          _flex3 = 1;
         });
       },
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: inAnimation ? _horizontalPadding : 0,
-        ),
-        child: Row(
-          children: [
-            _menuButton(),
-            Expanded(
-              flex: 3,
+      child: Row(
+        children: [
+          AnimatedOpacity(
+            opacity: inAnimation ? 0 : 1,
+            curve: _opacityCurve,
+            duration: _duration,
+            child: AnimatedContainer(
+              duration: _duration,
+              curve: _curve,
+              width: width1,
+              alignment: Alignment.center,
+              child: _menuButton(),
+            ),
+          ),
+          AnimatedContainer(
+            duration: _duration,
+            curve: _curve,
+            width: width2,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: _padding),
               child: Container(
                 height: double.infinity,
                 child: SvgPicture.asset(
                   _logo,
-                  fit: BoxFit.fitWidth,
+                  fit: BoxFit.contain,
                 ),
               ),
             ),
-            _searchButton()
-          ],
-        ),
+          ),
+          AnimatedOpacity(
+            opacity: inAnimation ? 0 : 1,
+            curve: _opacityCurve,
+            duration: _duration,
+            child: AnimatedContainer(
+              duration: _duration,
+              curve: _curve,
+              width: width3,
+              alignment: Alignment.center,
+              child: _searchButton(),
+            ),
+          ),
+        ],
       ),
     );
   }
 
   _menuButton() {
-    if (inAnimation)
-      return SizedBox();
-    else
-      return Expanded(
-        flex: 1,
-        child: Material(
-          color: Colors.transparent,
-          child: Button(
-            icon: Icons.segment,
-            fuction: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Menu(),
-                ),
-              );
-            },
-          ),
-        ),
-      );
+    return Material(
+      color: Colors.transparent,
+      child: Button(
+        icon: Icons.segment,
+        fuction: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Menu(),
+            ),
+          );
+        },
+      ),
+    );
   }
 
   _searchButton() {
-    if (inAnimation)
-      return SizedBox();
-    else
-      return Expanded(
-        flex: 1,
-        child: Material(
-          color: Colors.transparent,
-          child: Button(
-            icon: Icons.search,
-            fuction: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Search(),
-                ),
-              );
-            },
-          ),
-        ),
-      );
+    return Material(
+      color: Colors.transparent,
+      child: Button(
+        icon: Icons.search,
+        fuction: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Search(),
+            ),
+          );
+        },
+      ),
+    );
   }
 }

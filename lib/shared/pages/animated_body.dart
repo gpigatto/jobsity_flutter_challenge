@@ -53,7 +53,9 @@ class __AnimatedBodyState extends State<_AnimatedBody> {
   final _animationTime = Duration(milliseconds: 800);
   final _animationCurve = Curves.easeIn;
 
+  bool _inStatic = false;
   bool _inAnimation = false;
+  bool _inOpacity = false;
 
   @override
   void initState() {
@@ -63,16 +65,53 @@ class __AnimatedBodyState extends State<_AnimatedBody> {
   }
 
   _animateContainer() {
+    // check if animation will happen
     _inAnimation = !widget.showAnimation;
-    context.read<AnimationCubit>().enabled();
+    _inStatic = !widget.showAnimation;
+    _inOpacity = !widget.showAnimation;
 
     if (widget.showAnimation) {
+      context.read<AnimationCubit>().enabled();
+
+      // duration in static form
+      var _staticDuration = 2000;
+
       WidgetsBinding.instance!.addPostFrameCallback((_) {
-        Future.delayed(Duration(seconds: 2), () {
+        Future.delayed(Duration(milliseconds: _staticDuration), () {
+          if (mounted) {
+            setState(() {
+              _inStatic = true;
+            });
+
+            context.read<AnimationCubit>().disabled();
+          }
+        });
+      });
+
+      // duration between the static form and header animation + offset
+      var _offset = 100;
+
+      var _inAnimationDuration =
+          _staticDuration + _animationTime.inMilliseconds + _offset;
+
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        Future.delayed(Duration(milliseconds: _inAnimationDuration), () {
           if (mounted) {
             setState(() {
               _inAnimation = true;
-              context.read<AnimationCubit>().disabled();
+            });
+          }
+        });
+      });
+
+      // duration between the static form and header animation + animation offset + offset
+      var _inOpacityDuration = _inAnimationDuration + _offset;
+
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        Future.delayed(Duration(milliseconds: _inOpacityDuration), () {
+          if (mounted) {
+            setState(() {
+              _inOpacity = true;
             });
           }
         });
@@ -93,6 +132,7 @@ class __AnimatedBodyState extends State<_AnimatedBody> {
           child: Column(
             children: <Widget>[
               _header(),
+              // to avoid overlap error
               _inAnimation ? _home() : SizedBox(),
             ],
           ),
@@ -102,54 +142,39 @@ class __AnimatedBodyState extends State<_AnimatedBody> {
   }
 
   _home() {
-    final _bodyColor = AppTheme.backGround;
-
-    final _headerAnimation = Curves.easeInOutQuint;
-
-    final _bodyBorderRadius = 24.0;
-
     final _height = MediaQuery.of(context).size.height - _headerHeight;
+    final _opacityAnimationDuration = Duration(milliseconds: 400);
 
-    return Stack(
-      children: [
-        AnimatedOpacity(
-          opacity: _inAnimation ? 1 : 0,
-          curve: _animationCurve,
-          duration: _animationTime,
-          child: AnimatedContainer(
-            duration: _animationTime,
-            curve: _headerAnimation,
-            child: Container(
-              height: _height,
-              child: widget.home,
-              decoration: BoxDecoration(
-                color: _bodyColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(_bodyBorderRadius),
-                  topRight: Radius.circular(_bodyBorderRadius),
-                ),
-              ),
-            ),
+    // animate opacity after rendered
+    return AnimatedOpacity(
+      opacity: _inOpacity ? 1 : 0,
+      curve: _animationCurve,
+      duration: _opacityAnimationDuration,
+      child: Stack(
+        children: [
+          Container(
+            height: _height,
+            child: widget.home,
           ),
-        ),
-        TopCutOut(
-          height: _cutOutHeight,
-        ),
-      ],
+          TopCutOut(
+            height: _cutOutHeight,
+          ),
+        ],
+      ),
     );
   }
 
   _header() {
     final _headerColor = AppTheme.backGround;
-
     final _headerAnimation = Curves.easeInOutQuint;
-
+    // (_cutOutHeight / 3) = half + 1/2 cut half
     final _statusPadding =
         MediaQuery.of(context).padding.top + (_cutOutHeight / 3);
 
     double _currentHeaderHeight;
 
-    if (_inAnimation) {
+    // when in static show header full screen
+    if (_inStatic) {
       _currentHeaderHeight = _headerHeight;
     } else {
       _currentHeaderHeight = MediaQuery.of(context).size.height;
@@ -181,8 +206,8 @@ class TopCutOut extends StatelessWidget {
           height: height,
           child: Stack(
             children: [
-              _topCardBottomCutShadow(height),
-              _topCardBottomCut(height),
+              _cutShadow(height),
+              _cut(height),
             ],
           ),
         ),
@@ -190,7 +215,7 @@ class TopCutOut extends StatelessWidget {
     );
   }
 
-  _topCardBottomCut(height) {
+  _cut(height) {
     final _bottomCutColor = AppTheme.backGround;
     final _bottomCutColorRadius = 16.0;
 
@@ -199,37 +224,27 @@ class TopCutOut extends StatelessWidget {
         _bottomCutColor,
         BlendMode.srcOut,
       ),
+      // set the height
       child: Container(
-        height: height,
         child: Column(
           children: [
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.green,
-                  backgroundBlendMode: BlendMode.dstOut,
-                ),
+            // remove top half (used to overlap the shadow)
+            Container(
+              height: (height / 2) - 1,
+              decoration: BoxDecoration(
+                color: Colors.green,
+                backgroundBlendMode: BlendMode.dstOut,
               ),
             ),
-            Expanded(
-              child: Stack(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.green,
-                      backgroundBlendMode: BlendMode.dstOut,
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: _bottomCutColor,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(_bottomCutColorRadius),
-                        topRight: Radius.circular(_bottomCutColorRadius),
-                      ),
-                    ),
-                  ),
-                ],
+            // cut part
+            Container(
+              height: (height / 2) - 1,
+              decoration: BoxDecoration(
+                color: _bottomCutColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(_bottomCutColorRadius),
+                  topRight: Radius.circular(_bottomCutColorRadius),
+                ),
               ),
             ),
           ],
@@ -238,13 +253,12 @@ class TopCutOut extends StatelessWidget {
     );
   }
 
-  _topCardBottomCutShadow(height) {
+  _cutShadow(height) {
     final _shadow = AppTheme.shadow3;
 
     return Container(
       height: height / 2,
       decoration: BoxDecoration(
-        color: Colors.red,
         boxShadow: [_shadow],
       ),
     );

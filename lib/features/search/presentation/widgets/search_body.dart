@@ -26,11 +26,12 @@ class _SearchBody extends StatefulWidget {
 }
 
 class __SearchBodyState extends State<_SearchBody> {
-  var itemList = [];
+  var _itemList = [];
 
   @override
   Widget build(BuildContext context) {
     final _cutOutHeight = 40.0;
+    final _animationTime = Duration(milliseconds: 800);
 
     return MultiBlocListener(
       listeners: [
@@ -43,7 +44,7 @@ class __SearchBodyState extends State<_SearchBody> {
           listener: (context, state) {
             if (state is SearchShowLoaded) {
               setState(() {
-                itemList = state.searchShowModel.ObjectList!;
+                _itemList = state.searchShowModel.ObjectList!;
               });
             }
           },
@@ -51,10 +52,12 @@ class __SearchBodyState extends State<_SearchBody> {
       ],
       child: Stack(
         children: [
-          Container(
+          AnimatedOpacity(
+            duration: _animationTime,
+            opacity: _itemList.length > 0 ? 1 : 0,
             child: ListView.builder(
               itemBuilder: (context, i) {
-                SearchShowModelObjectList item = itemList[i];
+                SearchShowModelObjectList item = _itemList[i];
 
                 try {
                   var hasImage = item.theShow!.image != null;
@@ -79,7 +82,7 @@ class __SearchBodyState extends State<_SearchBody> {
                   return SizedBox();
                 }
               },
-              itemCount: itemList.length,
+              itemCount: _itemList.length,
             ),
           ),
           TopCutOut(
