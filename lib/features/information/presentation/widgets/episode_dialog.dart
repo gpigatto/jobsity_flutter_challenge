@@ -69,7 +69,7 @@ class EpisodeDialog extends StatelessWidget {
   }
 
   _summary(BuildContext context) {
-    final _color = AppTheme.accent;
+    final _color = AppTheme().colors.base;
     final _radius = 16.0;
 
     return Container(
@@ -89,7 +89,7 @@ class EpisodeDialog extends StatelessWidget {
   }
 
   _season() {
-    final _textWeight = AppTheme.fontWeightThin;
+    final _textWeight = AppTheme().fontWeight.thin;
     final _textSize = 14.0;
 
     return Text(
@@ -102,7 +102,7 @@ class EpisodeDialog extends StatelessWidget {
   }
 
   _episode() {
-    final _textWeight = AppTheme.fontWeightThin;
+    final _textWeight = AppTheme().fontWeight.thin;
     final _textSize = 14.0;
 
     return Text(
@@ -115,7 +115,7 @@ class EpisodeDialog extends StatelessWidget {
   }
 
   _name() {
-    final _textWeight = AppTheme.fontWeightBold;
+    final _textWeight = AppTheme().appFontWeight.bold;
     final _textSize = 22.0;
 
     return Row(

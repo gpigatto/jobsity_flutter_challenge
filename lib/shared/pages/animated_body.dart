@@ -165,7 +165,7 @@ class __AnimatedBodyState extends State<_AnimatedBody> {
   }
 
   _header() {
-    final _headerColor = AppTheme.backGround;
+    final _headerColor = AppTheme().colors.backGround;
     final _headerAnimation = Curves.easeInOutQuint;
     // (_cutOutHeight / 3) = half + 1/2 cut half
     final _statusPadding =
@@ -216,7 +216,7 @@ class TopCutOut extends StatelessWidget {
   }
 
   _cut(height) {
-    final _bottomCutColor = AppTheme.backGround;
+    final _bottomCutColor = AppTheme().colors.backGround;
     final _bottomCutColorRadius = 16.0;
 
     return ColorFiltered(
@@ -254,7 +254,7 @@ class TopCutOut extends StatelessWidget {
   }
 
   _cutShadow(height) {
-    final _shadow = AppTheme.shadow3;
+    final _shadow = AppTheme().shadow.shadow3;
 
     return Container(
       height: height / 2,

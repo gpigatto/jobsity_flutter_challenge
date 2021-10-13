@@ -106,7 +106,7 @@ class InformationBody extends StatelessWidget {
   }
 
   _title(BuildContext context, title) {
-    final _textWeight = AppTheme.fontWeightBold;
+    final _textWeight = AppTheme().appFontWeight.bold;
     final _textSize = 24.0;
 
     return Text(
@@ -120,7 +120,7 @@ class InformationBody extends StatelessWidget {
 
   _date(BuildContext context, title) {
     final _textSize = 14.0;
-    final _textWeight = AppTheme.fontWeightThin;
+    final _textWeight = AppTheme().fontWeight.thin;
 
     return Text(
       title,
@@ -132,7 +132,7 @@ class InformationBody extends StatelessWidget {
   }
 
   _summary(BuildContext context) {
-    final _color = AppTheme.accent;
+    final _color = AppTheme().colors.base;
     final _radius = 16.0;
 
     return Container(

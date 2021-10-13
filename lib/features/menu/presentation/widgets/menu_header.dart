@@ -74,10 +74,10 @@ class _MenuHeaderState extends State<MenuHeader> {
   }
 
   _logIn() {
-    final _color = AppTheme.highlight;
+    final _color = AppTheme().colors.highlight;
     final _radius = 12.0;
     final _icon = Icons.login;
-    final _iconColor = AppTheme.accentBackground;
+    final _iconColor = AppTheme().colors.backGround;
     final _padding = 16.0;
 
     return Padding(

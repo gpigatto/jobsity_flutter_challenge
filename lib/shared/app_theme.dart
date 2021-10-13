@@ -1,41 +1,60 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  static final darkAccent = Colors.amber.shade800;
-  static const highlight = Colors.amber;
-  static final accent = Colors.amber.shade200;
-  static final accentBackground = Colors.amber.shade50;
-  static const backGround = Colors.white;
-  static const fontColor = Colors.black87;
+  final AppColors appColors = new AppColors();
+  final AppFontColors appFontColors = new AppFontColors();
+  final AppFontWeight appFontWeight = new AppFontWeight();
+  final AppShadow appShadow = new AppShadow();
 
-  static const fontWeightThin = FontWeight.w400;
-  static const fontWeightBold = FontWeight.w800;
+  AppColors get colors => appColors;
+  AppFontColors get fontColors => appFontColors;
+  AppFontWeight get fontWeight => appFontWeight;
+  AppShadow get shadow => appShadow;
+}
 
-  static final shadow0 = BoxShadow(
-    color: Colors.grey.withOpacity(0.3),
-    spreadRadius: 1,
-    blurRadius: 1,
-    offset: Offset(1, 2),
-  );
+class AppColors {
+  Color get dark => Colors.amber.shade800;
+  Color get highlight => Colors.amber;
+  Color get base => Colors.amber.shade200;
+  Color get light => Colors.amber.shade50;
+  Color get backGround => Colors.white;
+}
 
-  static final shadow1 = BoxShadow(
-    color: Colors.grey.withOpacity(0.5),
-    spreadRadius: 1,
-    blurRadius: 1,
-    offset: Offset(1, 2),
-  );
+class AppFontColors {
+  Color get base => Colors.black87;
+}
 
-  static final shadow2 = BoxShadow(
-    color: Colors.grey.withOpacity(0.5),
-    spreadRadius: 2,
-    blurRadius: 2,
-    offset: Offset(1, 2),
-  );
+class AppFontWeight {
+  FontWeight get thin => FontWeight.w400;
+  FontWeight get bold => FontWeight.w800;
+}
 
-  static final shadow3 = BoxShadow(
-    color: Colors.grey.withOpacity(0.5),
-    spreadRadius: 1,
-    blurRadius: 3,
-    offset: Offset(3, 4),
-  );
+class AppShadow {
+  BoxShadow get shadow0 => BoxShadow(
+        color: Colors.grey.withOpacity(0.3),
+        spreadRadius: 1,
+        blurRadius: 1,
+        offset: Offset(1, 2),
+      );
+
+  BoxShadow get shadow1 => BoxShadow(
+        color: Colors.grey.withOpacity(0.5),
+        spreadRadius: 1,
+        blurRadius: 1,
+        offset: Offset(1, 2),
+      );
+
+  BoxShadow get shadow2 => BoxShadow(
+        color: Colors.grey.withOpacity(0.5),
+        spreadRadius: 2,
+        blurRadius: 2,
+        offset: Offset(1, 2),
+      );
+
+  BoxShadow get shadow3 => BoxShadow(
+        color: Colors.grey.withOpacity(0.5),
+        spreadRadius: 1,
+        blurRadius: 3,
+        offset: Offset(3, 4),
+      );
 }

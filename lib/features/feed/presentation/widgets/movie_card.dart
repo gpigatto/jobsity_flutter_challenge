@@ -16,8 +16,8 @@ class MovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _background = AppTheme.backGround;
-    final _shadow = AppTheme.shadow1;
+    final _background = AppTheme().colors.backGround;
+    final _shadow = AppTheme().shadow.shadow1;
     final _radius = 16.0;
     final _padding = 16.0;
     final _innerPadding = 4.0;
@@ -101,8 +101,8 @@ class MovieCard extends StatelessWidget {
   }
 
   _title(BuildContext context, title) {
-    final _textColor = AppTheme.fontColor;
-    final _textWeight = AppTheme.fontWeightBold;
+    final _textColor = AppTheme().fontColors.base;
+    final _textWeight = AppTheme().appFontWeight.bold;
     final _textSize = 20.0;
 
     return Text(

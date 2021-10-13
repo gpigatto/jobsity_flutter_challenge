@@ -14,9 +14,9 @@ class Rating extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _color = AppTheme.highlight;
+    final _color = AppTheme().colors.highlight;
     final _radius = 12.0;
-    final _shadow = AppTheme.shadow0;
+    final _shadow = AppTheme().shadow.shadow0;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -44,8 +44,8 @@ class Rating extends StatelessWidget {
 
   _text(BuildContext context) {
     final _fit = BoxFit.fitWidth;
-    final _color = AppTheme.fontColor;
-    final _weight = AppTheme.fontWeightBold;
+    final _color = AppTheme().fontColors.base;
+    final _weight = AppTheme().appFontWeight.bold;
     final _fontSize = 16.0;
 
     return Center(

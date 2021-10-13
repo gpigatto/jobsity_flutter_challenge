@@ -23,7 +23,7 @@ class Genres extends StatelessWidget {
     final _innerPaddingHorizontal = 6.0;
     final _innerPaddingVertical = 2.0;
     final _radius = 8.0;
-    final _color = AppTheme.accentBackground;
+    final _color = AppTheme().colors.backGround;
 
     return Padding(
       padding: EdgeInsets.only(right: _padding, bottom: _padding),
@@ -46,8 +46,8 @@ class Genres extends StatelessWidget {
   }
 
   _text(BuildContext context, String item) {
-    final _textColor = AppTheme.darkAccent;
-    final _textWeight = AppTheme.fontWeightBold;
+    final _textColor = AppTheme().colors.dark;
+    final _textWeight = AppTheme().appFontWeight.bold;
 
     return Text(
       item,

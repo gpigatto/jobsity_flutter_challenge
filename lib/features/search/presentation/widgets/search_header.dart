@@ -49,9 +49,9 @@ class SearchHeader extends StatelessWidget {
   _searchBar(BuildContext context) {
     final _padding = 16.0;
 
-    final _color = AppTheme.backGround;
-    final _cursorColor = AppTheme.fontColor;
-    final _shadow = AppTheme.shadow2;
+    final _color = AppTheme().colors.backGround;
+    final _cursorColor = AppTheme().fontColors.base;
+    final _shadow = AppTheme().shadow.shadow2;
 
     final _icon = Icons.search;
 
@@ -103,7 +103,7 @@ class SearchHeader extends StatelessWidget {
   }
 
   _title(BuildContext context, title) {
-    final _textWeight = AppTheme.fontWeightBold;
+    final _textWeight = AppTheme().appFontWeight.bold;
     final _textSize = 24.0;
 
     return Text(

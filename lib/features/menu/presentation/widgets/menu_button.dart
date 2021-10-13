@@ -47,7 +47,7 @@ class MenuButton extends StatelessWidget {
   }
 
   _leading() {
-    final _color = AppTheme.fontColor;
+    final _color = AppTheme().fontColors.base;
 
     return Icon(
       Icons.play_arrow_rounded,
@@ -56,8 +56,8 @@ class MenuButton extends StatelessWidget {
   }
 
   _icon() {
-    final _color = AppTheme.fontColor;
-    final _backgroudColor = AppTheme.accentBackground;
+    final _color = AppTheme().fontColors.base;
+    final _backgroudColor = AppTheme().colors.backGround;
     final _radius = 12.0;
 
     return LayoutBuilder(
@@ -84,8 +84,8 @@ class MenuButton extends StatelessWidget {
   }
 
   _title() {
-    final _textColor = AppTheme.fontColor;
-    final _textWeight = AppTheme.fontWeightBold;
+    final _textColor = AppTheme().fontColors.base;
+    final _textWeight = AppTheme().appFontWeight.bold;
     final _textSize = 20.0;
 
     return Text(

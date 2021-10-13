@@ -9,6 +9,7 @@ import 'package:jobsity_flutter_challenge/features/login/presentation/bloc/get_l
 import 'package:jobsity_flutter_challenge/features/menu/presentation/widgets/menu_button.dart';
 import 'package:jobsity_flutter_challenge/shared/app_theme.dart';
 import 'package:jobsity_flutter_challenge/shared/widgets/space.dart';
+import 'package:jobsity_flutter_challenge/shared/widgets/toast.dart';
 
 class MenuBody extends StatefulWidget {
   const MenuBody({Key? key}) : super(key: key);
@@ -74,7 +75,8 @@ class _MenuBodyState extends State<MenuBody> {
                         ),
                       );
                     } else {
-                      _errorToast("Sign In First..");
+                      CustomToast()
+                          .errorToast("Sign in first!", ToastGravity.BOTTOM);
                     }
                   },
                 ),
@@ -88,9 +90,9 @@ class _MenuBodyState extends State<MenuBody> {
   }
 
   _hello() {
-    final _textColor = AppTheme.fontColor;
-    final _textHighlight = AppTheme.highlight;
-    final _textWeight = AppTheme.fontWeightBold;
+    final _textColor = AppTheme().fontColors.base;
+    final _textHighlight = AppTheme().colors.highlight;
+    final _textWeight = AppTheme().appFontWeight.bold;
     final _textSize = 42.0;
 
     return FittedBox(
@@ -115,18 +117,6 @@ class _MenuBodyState extends State<MenuBody> {
           ),
         ],
       ),
-    );
-  }
-
-  _errorToast(message) {
-    Fluttertoast.showToast(
-      msg: message,
-      toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-      backgroundColor: AppTheme.darkAccent,
-      textColor: AppTheme.accentBackground,
-      fontSize: 16.0,
     );
   }
 }
