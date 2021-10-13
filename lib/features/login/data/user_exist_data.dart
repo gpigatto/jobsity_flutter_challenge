@@ -18,8 +18,6 @@ class UserExistData extends UserExistInterface {
       LIMIT 1
     ''';
 
-    List<Map> list = await database.rawQuery('SELECT * FROM USERS');
-
     var id = -1;
 
     try {

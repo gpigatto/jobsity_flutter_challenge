@@ -29,7 +29,7 @@ class Database {
         premiered TEXT, 
         ended TEXT, 
         summary TEXT, 
-        genres_json TEXT
+        genres_list TEXT
       )
     ''';
 

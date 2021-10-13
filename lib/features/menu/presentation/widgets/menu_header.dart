@@ -40,6 +40,7 @@ class _MenuHeaderState extends State<MenuHeader> {
   @override
   Widget build(BuildContext context) {
     final _iconButton = Icons.arrow_back_ios_new;
+    final _padding = 26.0;
 
     return BlocListener<GetLoggedBloc, GetLoggedState>(
       listener: (context, state) async {
@@ -47,24 +48,27 @@ class _MenuHeaderState extends State<MenuHeader> {
           logged = state.logged;
         }
       },
-      child: Row(
-        children: [
-          Expanded(
-            flex: 1,
-            child: Button(
-              icon: _iconButton,
-              fuction: () => Navigator.pop(context),
+      child: Padding(
+        padding: EdgeInsets.only(top: _padding),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Button(
+                icon: _iconButton,
+                fuction: () => Navigator.pop(context),
+              ),
             ),
-          ),
-          Expanded(
-            flex: 3,
-            child: SizedBox(),
-          ),
-          Expanded(
-            flex: 1,
-            child: _logIn(),
-          ),
-        ],
+            Expanded(
+              flex: 3,
+              child: SizedBox(),
+            ),
+            Expanded(
+              flex: 1,
+              child: _logIn(),
+            ),
+          ],
+        ),
       ),
     );
   }
