@@ -17,13 +17,13 @@ import 'package:jobsity_flutter_challenge/features/login/presentation/widgets/lo
 import 'package:jobsity_flutter_challenge/features/login/presentation/widgets/pin_field.dart';
 import 'package:jobsity_flutter_challenge/features/login/presentation/widgets/username_field.dart';
 import 'package:jobsity_flutter_challenge/shared/app_theme.dart';
+import 'package:jobsity_flutter_challenge/shared/pages/simple_body.dart';
+import 'package:jobsity_flutter_challenge/shared/widgets/simple_header.dart';
 import 'package:jobsity_flutter_challenge/shared/widgets/space.dart';
 import 'package:jobsity_flutter_challenge/shared/widgets/toast.dart';
 import 'package:local_auth/local_auth.dart';
 
-class LoginDialog extends StatelessWidget {
-  const LoginDialog({Key? key}) : super(key: key);
-
+class LoginBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -47,18 +47,24 @@ class LoginDialog extends StatelessWidget {
           create: (_) => SaveBiometricBloc(serviceLocator()),
         ),
       ],
-      child: _LoginDialog(),
+      child: _LoginBody(),
     );
   }
 }
 
-class _LoginDialog extends StatefulWidget {
+class _LoginBody extends StatefulWidget {
+  const _LoginBody({Key? key}) : super(key: key);
+
   @override
-  __LoginDialogState createState() => __LoginDialogState();
+  __LoginBodyState createState() => __LoginBodyState();
 }
 
-class __LoginDialogState extends State<_LoginDialog> {
+class __LoginBodyState extends State<_LoginBody> {
   final LocalAuthentication auth = LocalAuthentication();
+  PageController pageController = PageController(
+    initialPage: 0,
+    keepPage: false,
+  );
 
   final pinFocus = FocusNode();
   final confirmPinFocus = FocusNode();
@@ -132,6 +138,49 @@ class __LoginDialogState extends State<_LoginDialog> {
     }
   }
 
+  _validateFields() {
+    return Validation().validateFields(
+      user,
+      pin,
+      confirmPin,
+      userChecked,
+      signedUp,
+    );
+  }
+
+  _checkUser() {
+    if (_validateFields()) return null;
+
+    context.read<UserExistBloc>().add(UserExistLoad(user));
+    context.read<CheckBiometricBloc>().add(CheckBiometricLoad(user));
+  }
+
+  _login() {
+    if (_validateFields()) return null;
+
+    context.read<LoginBloc>().add(
+          LoginLoad(
+            LoginClass(
+              username: user,
+              pin: pin,
+            ),
+          ),
+        );
+  }
+
+  _register() {
+    if (_validateFields()) return null;
+
+    context.read<RegisterBloc>().add(
+          RegisterLoad(
+            LoginClass(
+              username: user,
+              pin: pin,
+            ),
+          ),
+        );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
@@ -162,7 +211,18 @@ class __LoginDialogState extends State<_LoginDialog> {
               });
 
               if (state.exist) {
+                pageController.animateToPage(
+                  1,
+                  duration: Duration(milliseconds: 400),
+                  curve: Curves.easeInOut,
+                );
                 _loginByBiometric();
+              } else {
+                pageController.animateToPage(
+                  2,
+                  duration: Duration(milliseconds: 400),
+                  curve: Curves.easeInOut,
+                );
               }
             }
           },
@@ -184,179 +244,176 @@ class __LoginDialogState extends State<_LoginDialog> {
           },
         ),
       ],
-      child: _dialog(),
-    );
-  }
-
-  _dialog() {
-    final _radius = 16.0;
-    final _padding = 120.0;
-
-    final _minSize = MainAxisSize.min;
-
-    return AlertDialog(
-      title: _title(),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(_radius),
-        ),
+      child: PageView(
+        controller: pageController,
+        physics: NeverScrollableScrollPhysics(),
+        children: <Widget>[
+          _userCheckStep(),
+          _loginStep(),
+          _registerStep(),
+        ],
       ),
-      content: Builder(
-        builder: (context) {
-          var width = MediaQuery.of(context).size.width - _padding;
-
-          return Container(
-            width: width,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: _minSize,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  UsernameField(
-                    onChage: (value) {
-                      user = value;
-                    },
-                    onSubmit: () {
-                      _checkUser();
-                      FocusScope.of(context).requestFocus(pinFocus);
-                    },
-                  ),
-                  if (!userChecked)
-                    _userCheckStep()
-                  else if (userChecked && signedUp)
-                    _loginStep()
-                  else
-                    _registerStep()
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  _title() {
-    final _title = userChecked && !signedUp ? "Register" : "Login";
-    final _textColor = AppTheme().fontColors.base;
-    final _fontWeight = AppTheme().appFontWeight.bold;
-    final _textSize = 22.0;
-
-    return Text(
-      _title,
-      style: TextStyle(
-        color: _textColor,
-        fontSize: _textSize,
-        fontWeight: _fontWeight,
-      ),
-    );
-  }
-
-  _validateFields() {
-    return Validation().validateFields(
-      user,
-      pin,
-      confirmPin,
-      userChecked,
-      signedUp,
     );
   }
 
   _registerStep() {
     final _align = CrossAxisAlignment.stretch;
 
-    return Column(
-      crossAxisAlignment: _align,
-      children: [
-        VSpace(24),
-        PinField(
-          title: "Pin",
-          onComplete: (value) {
-            pin = value;
-
-            FocusScope.of(context).requestFocus(confirmPinFocus);
-          },
-          focusNode: pinFocus,
-        ),
-        VSpace(24),
-        PinField(
-          title: "Confirm Pin",
-          onComplete: (value) {
-            confirmPin = value;
-            _register();
-          },
-          focusNode: confirmPinFocus,
-        ),
-        VSpace(24),
-        LoginButton(label: "Register", function: () => _register()),
-      ],
-    );
-  }
-
-  _register() {
-    if (_validateFields()) return null;
-
-    context.read<RegisterBloc>().add(
-          RegisterLoad(
-            LoginClass(
-              username: user,
-              pin: pin,
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          crossAxisAlignment: _align,
+          children: [
+            VSpace(16),
+            _hello("Welcome! "),
+            VSpace(16),
+            _subtitle(
+              "Please, set a Pin below for your new account.",
             ),
-          ),
-        );
+            VSpace(24),
+            PinField(
+              title: "Pin",
+              onComplete: (value) {
+                pin = value;
+              },
+            ),
+            VSpace(24),
+            PinField(
+              title: "Confirm Pin",
+              onComplete: (value) {
+                confirmPin = value;
+                _register();
+              },
+            ),
+            VSpace(24),
+            LoginButton(label: "Register", function: () => _register()),
+          ],
+        ),
+      ),
+    );
   }
 
   _loginStep() {
     final _align = CrossAxisAlignment.stretch;
 
-    return Column(
-      crossAxisAlignment: _align,
-      children: [
-        VSpace(24),
-        PinField(
-          title: "Pin",
-          onComplete: (value) {
-            pin = value;
-
-            _login();
-          },
-          focusNode: pinFocus,
-        ),
-        VSpace(24),
-        LoginButton(label: "Login", function: () => _login()),
-      ],
-    );
-  }
-
-  _login() {
-    if (_validateFields()) return null;
-
-    context.read<LoginBloc>().add(
-          LoginLoad(
-            LoginClass(
-              username: user,
-              pin: pin,
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          crossAxisAlignment: _align,
+          children: [
+            VSpace(16),
+            _hello("Welcome back "),
+            VSpace(16),
+            _subtitle(
+              "Please, check your Pin below.",
             ),
-          ),
-        );
+            VSpace(24),
+            PinField(
+              title: "Pin",
+              onComplete: (value) {
+                pin = value;
+
+                _login();
+              },
+            ),
+            VSpace(24),
+            LoginButton(label: "Login", function: () => _login()),
+          ],
+        ),
+      ),
+    );
   }
 
   _userCheckStep() {
     final _align = CrossAxisAlignment.stretch;
 
-    return Column(
-      crossAxisAlignment: _align,
-      children: [
-        VSpace(24),
-        LoginButton(label: "Next", function: () => _checkUser()),
-      ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          crossAxisAlignment: _align,
+          children: [
+            VSpace(16),
+            _title("Hey There!"),
+            VSpace(16),
+            _subtitle(
+              "Please, enter your user name below to Sign in or Register a new Account.",
+            ),
+            VSpace(24),
+            UsernameField(
+              onChage: (value) {
+                user = value;
+              },
+              onSubmit: (value) {
+                _checkUser();
+                FocusScope.of(context).requestFocus(pinFocus);
+              },
+            ),
+            VSpace(24),
+            LoginButton(label: "Next", function: () => _checkUser()),
+          ],
+        ),
+      ),
     );
   }
 
-  _checkUser() {
-    if (_validateFields()) return null;
+  _title(title) {
+    final _textWeight = AppTheme().appFontWeight.bold;
+    final _color = AppTheme().fontColors.base;
+    final _textSize = 42.0;
 
-    context.read<UserExistBloc>().add(UserExistLoad(user));
-    context.read<CheckBiometricBloc>().add(CheckBiometricLoad(user));
+    return Text(
+      title,
+      style: TextStyle(
+        color: _color,
+        fontWeight: _textWeight,
+        fontSize: _textSize,
+      ),
+    );
+  }
+
+  _subtitle(title) {
+    final _textWeight = AppTheme().appFontWeight.thin;
+    final _color = AppTheme().fontColors.base;
+    final _textSize = 20.0;
+
+    return Text(
+      title,
+      style: TextStyle(
+        color: _color,
+        fontWeight: _textWeight,
+        fontSize: _textSize,
+      ),
+    );
+  }
+
+  _hello(text) {
+    final _textColor = AppTheme().fontColors.base;
+    final _textHighlight = AppTheme().colors.highlight;
+    final _textWeight = AppTheme().appFontWeight.bold;
+    final _textSize = 42.0;
+
+    return Row(
+      children: [
+        Text(
+          text,
+          style: TextStyle(
+            color: _textColor,
+            fontWeight: _textWeight,
+            fontSize: _textSize,
+          ),
+        ),
+        Text(
+          user,
+          style: TextStyle(
+            color: _textHighlight,
+            fontWeight: _textWeight,
+            fontSize: _textSize,
+          ),
+        ),
+      ],
+    );
   }
 }

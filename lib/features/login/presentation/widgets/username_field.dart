@@ -16,7 +16,7 @@ class UsernameField extends StatelessWidget {
   Widget build(BuildContext context) {
     final _color = AppTheme().colors.backGround;
     final _cursorColor = AppTheme().fontColors.base;
-    final _shadow = AppTheme().shadow.shadow0;
+    final _shadow = AppTheme().shadow.shadow2;
 
     final _icon = Icons.person;
 

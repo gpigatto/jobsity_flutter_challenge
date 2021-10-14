@@ -7,20 +7,23 @@ class SimpleHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final _iconButton = Icons.arrow_back_ios_new;
 
-    return Row(
-      children: [
-        Expanded(
-          flex: 1,
-          child: Button(
-            icon: _iconButton,
-            fuction: () => Navigator.pop(context),
+    return Padding(
+      padding: EdgeInsets.only(top: 24),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 1,
+            child: Button(
+              icon: _iconButton,
+              fuction: () => Navigator.pop(context),
+            ),
           ),
-        ),
-        Expanded(
-          flex: 4,
-          child: SizedBox(),
-        ),
-      ],
+          Expanded(
+            flex: 4,
+            child: SizedBox(),
+          ),
+        ],
+      ),
     );
   }
 }

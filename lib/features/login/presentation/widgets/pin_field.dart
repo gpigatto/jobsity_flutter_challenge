@@ -7,21 +7,19 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 class PinField extends StatelessWidget {
   final String title;
   final Function onComplete;
-  final FocusNode focusNode;
 
-  const PinField(
-      {Key? key,
-      required this.title,
-      required this.onComplete,
-      required this.focusNode})
-      : super(key: key);
+  const PinField({
+    Key? key,
+    required this.title,
+    required this.onComplete,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final _padding = 16.0;
     final _radius = 16.0;
 
-    final _shadow = AppTheme().shadow.shadow0;
+    final _shadow = AppTheme().shadow.shadow2;
     final _background = AppTheme().colors.backGround;
 
     return Container(
@@ -85,7 +83,6 @@ class PinField extends StatelessWidget {
       beforeTextPaste: (text) {
         return false;
       },
-      focusNode: focusNode,
       keyboardType: TextInputType.number,
       autoFocus: true,
     );
