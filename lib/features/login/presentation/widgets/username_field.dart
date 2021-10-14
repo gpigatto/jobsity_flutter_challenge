@@ -19,6 +19,7 @@ class UsernameField extends StatelessWidget {
     final _shadow = AppTheme().shadow.shadow2;
 
     final _icon = Icons.person;
+    final _iconColor = AppTheme().colors.dark;
 
     final _radius = 16.0;
     final _innerPaddingHorizontal = 8.0;
@@ -50,7 +51,7 @@ class UsernameField extends StatelessWidget {
             border: InputBorder.none,
             icon: Icon(
               _icon,
-              color: _cursorColor,
+              color: _iconColor,
             ),
           ),
           style: TextStyle(
