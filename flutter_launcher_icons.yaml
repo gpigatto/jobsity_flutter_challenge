@@ -1,0 +1,4 @@
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "resources/icon/jobsity_logo.png"

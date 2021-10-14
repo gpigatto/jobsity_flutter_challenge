@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Jobsity Movie Database',
+        title: 'Jobsity Movie',
         home: Feed(),
       ),
     );
