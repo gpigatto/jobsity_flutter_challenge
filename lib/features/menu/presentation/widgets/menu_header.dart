@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobsity_flutter_challenge/features/login/presentation/bloc/get_logged_bloc.dart';
-import 'package:jobsity_flutter_challenge/features/login/presentation/widgets/login_dialog.dart';
+import 'package:jobsity_flutter_challenge/features/login/presentation/pages/login.dart';
 import 'package:jobsity_flutter_challenge/features/login/presentation/widgets/logout_dialog.dart';
 import 'package:jobsity_flutter_challenge/shared/app_theme.dart';
 import 'package:jobsity_flutter_challenge/shared/widgets/button.dart';
@@ -17,17 +17,22 @@ class MenuHeader extends StatefulWidget {
 class _MenuHeaderState extends State<MenuHeader> {
   bool logged = false;
 
-  _showDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (_) {
-        if (!logged) {
-          return LoginDialog();
-        } else {
+  _loginLogout(BuildContext context) {
+    if (!logged) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Login(),
+        ),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (_) {
           return LogoutDialog();
-        }
-      },
-    );
+        },
+      );
+    }
   }
 
   @override
@@ -103,7 +108,7 @@ class _MenuHeaderState extends State<MenuHeader> {
               color: Colors.transparent,
               child: InkWell(
                 onTap: () {
-                  _showDialog(context);
+                  _loginLogout(context);
                 },
                 borderRadius: BorderRadius.all(
                   Radius.circular(_radius),

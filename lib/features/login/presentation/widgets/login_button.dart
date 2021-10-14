@@ -17,7 +17,7 @@ class LoginButton extends StatelessWidget {
     final _textSize = 20.0;
     final _radius = 12.0;
     final _padding = 16.0;
-    final _shadow = AppTheme().shadow.shadow0;
+    final _shadow = AppTheme().shadow.shadow2;
 
     return Container(
       decoration: BoxDecoration(
