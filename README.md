@@ -32,7 +32,7 @@ A flutter application to list TV Series using the TVMaze API.
 
 ### Running the Apk
 
-You can download the APK [Here](https://github.com/gpigatto/jobsity_flutter_challenge/releases/download/1.1/app-release.apk) or you can go to the [Release Section](https://github.com/gpigatto/jobsity_flutter_challenge/releases/tag/1.1) to check the other downloadable files.
+You can download the APK [Here](https://github.com/gpigatto/jobsity_flutter_challenge/releases/download/1.1/app-debug.apk) or you can go to the [Release Section](https://github.com/gpigatto/jobsity_flutter_challenge/releases/tag/1.1) to check the other downloadable files.
 
 ### Running the repository
 
