@@ -57,7 +57,7 @@ class MenuButton extends StatelessWidget {
 
   _icon() {
     final _color = AppTheme().fontColors.base;
-    final _backgroudColor = AppTheme().colors.backGround;
+    final _backgroudColor = AppTheme().colors.light;
     final _radius = 12.0;
 
     return LayoutBuilder(

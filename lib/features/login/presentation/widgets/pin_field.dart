@@ -92,9 +92,15 @@ class PinField extends StatelessWidget {
     final _textColor = AppTheme().fontColors.base;
     final _textSize = 20.0;
 
+    final _icon = Icons.lock;
+    final _iconColor = AppTheme().colors.dark;
+
     return Row(
       children: [
-        Icon(Icons.lock),
+        Icon(
+          Icons.lock,
+          color: _iconColor,
+        ),
         HSpace(4),
         Text(
           title,

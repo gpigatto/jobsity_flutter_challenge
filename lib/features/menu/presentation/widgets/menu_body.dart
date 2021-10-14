@@ -6,6 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jobsity_flutter_challenge/features/favorite/presentation/pages/favorite_list.dart';
 import 'package:jobsity_flutter_challenge/features/login/presentation/bloc/get_logged_bloc.dart';
+import 'package:jobsity_flutter_challenge/features/login/presentation/pages/login.dart';
+import 'package:jobsity_flutter_challenge/features/menu/presentation/widgets/about_dialog.dart'
+    as dialog;
 import 'package:jobsity_flutter_challenge/features/menu/presentation/widgets/menu_button.dart';
 import 'package:jobsity_flutter_challenge/shared/app_theme.dart';
 import 'package:jobsity_flutter_challenge/shared/widgets/space.dart';
@@ -77,10 +80,29 @@ class _MenuBodyState extends State<MenuBody> {
                     } else {
                       CustomToast()
                           .errorToast("Sign in first!", ToastGravity.BOTTOM);
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Login(),
+                        ),
+                      );
                     }
                   },
                 ),
                 VSpace(16),
+                MenuButton(
+                  title: "About",
+                  icon: Icons.gite,
+                  function: () {
+                    showDialog(
+                      context: context,
+                      builder: (_) {
+                        return dialog.AboutDialog();
+                      },
+                    );
+                  },
+                ),
               ],
             )
           ],

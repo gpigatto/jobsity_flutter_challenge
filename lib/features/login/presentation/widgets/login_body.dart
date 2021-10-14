@@ -258,15 +258,16 @@ class __LoginBodyState extends State<_LoginBody> {
 
   _registerStep() {
     final _align = CrossAxisAlignment.stretch;
+    final _padding = 16.0;
 
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        padding: EdgeInsets.symmetric(horizontal: _padding),
         child: Column(
           crossAxisAlignment: _align,
           children: [
             VSpace(16),
-            _hello("Welcome! "),
+            _hello("Welcome "),
             VSpace(16),
             _subtitle(
               "Please, set a Pin below for your new account.",
@@ -296,10 +297,11 @@ class __LoginBodyState extends State<_LoginBody> {
 
   _loginStep() {
     final _align = CrossAxisAlignment.stretch;
+    final _padding = 16.0;
 
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        padding: EdgeInsets.symmetric(horizontal: _padding),
         child: Column(
           crossAxisAlignment: _align,
           children: [
@@ -328,10 +330,11 @@ class __LoginBodyState extends State<_LoginBody> {
 
   _userCheckStep() {
     final _align = CrossAxisAlignment.stretch;
+    final _padding = 16.0;
 
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        padding: EdgeInsets.symmetric(horizontal: _padding),
         child: Column(
           crossAxisAlignment: _align,
           children: [
