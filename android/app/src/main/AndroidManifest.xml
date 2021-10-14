@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.jobsity_flutter_challenge">
    <application
-        android:label="jobsity_flutter_challenge"
+        android:label="Jobsity Movie"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

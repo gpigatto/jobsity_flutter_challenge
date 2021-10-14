@@ -1,0 +1,5 @@
+flutter_native_splash:
+
+  color: "#ffffff"
+  #background_image: "assets/background.png"
+  image: resources/image/jobsity_logo_4x.png
